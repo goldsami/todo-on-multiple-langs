@@ -2,9 +2,14 @@
   "name": "database",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "setup-db": "npm run migrate:latest && npm run seed:run",
+    "migrate:make": "knex migrate:make",
+    "migrate:up": "knex migrate:up",
+    "migrate:down": "knex migrate:down",
+    "migrate:latest": "knex migrate:latest",
+    "seed:make": "knex seed:make",
+    "seed:run": "knex seed:run"
   },
   "author": "",
   "license": "ISC",
