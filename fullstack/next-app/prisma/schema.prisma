@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model knex_migrations {
+  id             Int       @id @default(autoincrement())
+  name           String?   @db.VarChar(255)
+  batch          Int?
+  migration_time DateTime? @db.Timestamptz(6)
+}
+
+model knex_migrations_lock {
+  index     Int  @id @default(autoincrement())
+  is_locked Int?
+}
+
+model task {
+  id          Int         @id @default(autoincrement())
+  name        String?     @db.VarChar(255)
+  description String?     @db.VarChar(255)
+  time        DateTime?   @db.Timestamptz(6)
+  status      String?     @default("open")
+  user_task   user_task[] @ignore
+}
+
+model user {
+  id          Int         @id @default(autoincrement())
+  name        String?     @db.VarChar(255)
+  description String?     @db.VarChar(255)
+  image_url   String?     @db.VarChar(255)
+  user_task   user_task[] @ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by the Prisma Client.
+model user_task {
+  user_id Int?
+  task_id Int?
+  task    task? @relation(fields: [task_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_task_task_id_foreign")
+  user    user? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_task_user_id_foreign")
+
+  @@ignore
+}
