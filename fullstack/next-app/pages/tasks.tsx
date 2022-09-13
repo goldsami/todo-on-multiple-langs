@@ -1,7 +1,7 @@
 export default function Tasks() {
-	return (
-		<>
-			tasks
-		</>
-	)
+  return (
+    <>
+      tasks
+    </>
+  )
 }
