@@ -1,12 +1,15 @@
 import {User} from "../models";
 import {prisma} from "../prisma";
 import Layout from "../components/layout";
+import PersonCard from "../components/person-card";
 
 export default function People({people}: { people: User[] }) {
   return (
     <Layout>
       {people.map((user, i) => (
-        <div key={i}>{user.name}</div>
+        <div key={i}>
+          <PersonCard person={user} />
+        </div>
       ))}
     </Layout>
   );
