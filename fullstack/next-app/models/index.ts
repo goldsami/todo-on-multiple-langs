@@ -3,6 +3,7 @@ export interface User {
   name: string;
   description: string;
   image_url: string;
+  task: Task[];
 }
 
 export interface Task {
@@ -11,4 +12,5 @@ export interface Task {
   description: string;
   time: Date;
   status: 'open' | 'closed';
+  user?: User;
 }
