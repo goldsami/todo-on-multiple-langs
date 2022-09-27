@@ -5,7 +5,6 @@
 exports.seed = async function(knex) {
   await seedUsers(knex)
   await seedTasks(knex)
-  await seedUserTasks(knex)
 };
 
 async function seedUsers(knex) {
@@ -22,21 +21,10 @@ async function seedUsers(knex) {
 async function seedTasks(knex) {
   await knex('task').del()
   await knex('task').insert([
-    {id: 0, name: 'Make the dinner', description: 'Cook pasta', status: 'open', time: '2022-09-07T10:29:41.386Z'},
-    {id: 1, name: 'Take Daniel to office', description: 'Take a car', status: 'open', time: '2022-09-15T9:00:41.386Z'},
-    {id: 2, name: 'Clean the house', description: 'Also clean up the roof', status: 'open', time: '2022-09-21T10:29:41.386Z'},
-    {id: 3, name: 'Plan the party', description: '15 guests invited', status: 'done', time: '2022-08-07T10:29:41.386Z'},
+    {id: 0, name: 'Make the dinner', description: 'Cook pasta', user_id: 0, status: 'open', time: '2022-09-07T10:29:41.386Z'},
+    {id: 1, name: 'Take Daniel to office', description: 'Take a car', user_id: 4, status: 'open', time: '2022-09-15T9:00:41.386Z'},
+    {id: 2, name: 'Clean the house', description: 'Also clean up the roof', user_id: 1, status: 'open', time: '2022-09-21T10:29:41.386Z'},
+    {id: 3, name: 'Plan the party', description: '15 guests invited', user_id: 3, status: 'done', time: '2022-08-07T10:29:41.386Z'},
     {id: 4, name: 'Create report', description: '', status: 'done', time: '2022-09-06T17:29:41.386Z'},
-  ])
-}
-
-async function seedUserTasks(knex) {
-  await knex('user_task').del()
-  await knex('user_task').insert([
-    {user_id: 0, task_id: 0},
-    {user_id: 1, task_id: 2},
-    {user_id: 0, task_id: 2},
-    {user_id: 4, task_id: 1},
-    {user_id: 3, task_id: 4},
   ])
 }
