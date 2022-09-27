@@ -7,6 +7,8 @@ exports.up = function (knex) {
     table.increments()
     table.string('name')
     table.string('description')
+    table.integer('user_id')
+    table.foreign('user_id').references('user.id')
     table.datetime('time')
     table.enum('status', ['open', 'done']).defaultTo('open')
   })
