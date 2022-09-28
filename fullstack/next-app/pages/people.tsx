@@ -1,7 +1,7 @@
 import {User} from "../models";
 import {prisma} from "../prisma";
 import Layout from "../components/layout";
-import PersonCard from "../components/person-card";
+import PersonCard from "../components/personCard";
 
 export default function People({people}: { people: User[] }) {
   return (
