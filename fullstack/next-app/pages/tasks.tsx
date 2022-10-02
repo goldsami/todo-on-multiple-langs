@@ -1,5 +1,5 @@
-import { prisma } from "../prisma";
-import { Task } from "../models";
+import {prisma} from "../prisma";
+import {Task} from "../models";
 import Layout from "../components/layout";
 import {TaskCard} from "../components/taskCard";
 import {useEffect, useState} from "react";
@@ -10,7 +10,7 @@ const taskTabs = {
   done: 'Done'
 }
 
-export default function Tasks({ tasks: _tasks }: { tasks: Task[] }) {
+export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
   const [currentTab, setCurrentTab] = useState(taskTabs.all)
   const [tasks, setTasks] = useState<Task[]>(_tasks)
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
@@ -31,7 +31,7 @@ export default function Tasks({ tasks: _tasks }: { tasks: Task[] }) {
   }
 
   const filterTasks = (tasks: Task[]) => {
-    switch (currentTab){
+    switch (currentTab) {
       case taskTabs.all:
         setFilteredTasks(tasks)
         break
@@ -61,7 +61,7 @@ export default function Tasks({ tasks: _tasks }: { tasks: Task[] }) {
           ))}
         </p>
         {filteredTasks.map((task, i) => (
-          <TaskCard task={task} key={i} update={updateTask} />
+          <TaskCard task={task} key={i} update={updateTask}/>
         ))}
       </article>
     </Layout>

@@ -8,7 +8,7 @@ export default function People({people}: { people: User[] }) {
     <Layout>
       {people.map((user, i) => (
         <div key={i}>
-          <PersonCard person={user} />
+          <PersonCard person={user}/>
         </div>
       ))}
     </Layout>
