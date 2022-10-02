@@ -10,12 +10,27 @@ const taskTabs = {
   done: 'Done'
 }
 
-export default function Tasks({ tasks }: { tasks: Task[] }) {
+export default function Tasks({ tasks: _tasks }: { tasks: Task[] }) {
   const [currentTab, setCurrentTab] = useState(taskTabs.all)
-  const [filteredTasks, setFilteredTasks] = useState<Task[]>(tasks)
+  const [tasks, setTasks] = useState<Task[]>(_tasks)
+  const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
 
-  useEffect(() => {
-    console.log('use effect', {tasks, currentTab})
+  const updateTask = async (id: number, task: Partial<Task>) => {
+    const res = await fetch(`/api/task/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(task),
+    })
+    const data = await res.json()
+    setTasks(tasks.map(x => {
+      if (x.id === id) return {...x, ...data}
+      else return x
+    }))
+  }
+
+  const filterTasks = (tasks: Task[]) => {
     switch (currentTab){
       case taskTabs.all:
         setFilteredTasks(tasks)
@@ -27,7 +42,11 @@ export default function Tasks({ tasks }: { tasks: Task[] }) {
         setFilteredTasks(tasks.filter(x => x.status === 'done'))
         break
     }
-  }, [tasks, currentTab])
+  }
+
+  useEffect(() => {
+    filterTasks(tasks)
+  }, [currentTab, tasks])
 
   return (
     <Layout>
@@ -42,7 +61,7 @@ export default function Tasks({ tasks }: { tasks: Task[] }) {
           ))}
         </p>
         {filteredTasks.map((task, i) => (
-          <TaskCard task={task} key={i} />
+          <TaskCard task={task} key={i} update={updateTask} />
         ))}
       </article>
     </Layout>
