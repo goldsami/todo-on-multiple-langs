@@ -3,6 +3,7 @@ import {Task} from "../models";
 import Layout from "../components/layout";
 import {TaskCard} from "../components/taskCard";
 import {useEffect, useState} from "react";
+import {MutateTaskModal} from "../components/mutateTaskModal";
 
 const taskTabs = {
   all: 'All',
@@ -14,10 +15,11 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
   const [currentTab, setCurrentTab] = useState(taskTabs.all)
   const [tasks, setTasks] = useState<Task[]>(_tasks)
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
+  const [modalProps, setModalProps] = useState<{show: boolean, task: Task | null}>({show: false, task: null})
 
   const updateTask = async (id: number, task: Partial<Task>) => {
     const res = await fetch(`/api/task/${id}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -37,13 +39,24 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
     setTasks(tasks.filter(x => x.id !== id))
   }
 
+  const createTask = async (newTask: Partial<Task>) => {
+    const res = await fetch(`/api/tasks`, {
+      method: 'POST',
+      body: JSON.stringify(newTask)
+    })
+    const {task} = await res.json()
+
+    setTasks([task, ...tasks])
+    setModalProps({show: false, task: null})
+  }
+
   const filterTasks = (tasks: Task[]) => {
     switch (currentTab) {
       case taskTabs.all:
         setFilteredTasks(tasks)
         break
       case taskTabs.upcoming:
-        setFilteredTasks(tasks.filter(x => new Date() < new Date(x.time)))
+        setFilteredTasks(tasks.filter(x => x.time && new Date() < new Date(x.time)))
         break
       case taskTabs.done:
         setFilteredTasks(tasks.filter(x => x.status === 'done'))
@@ -58,7 +71,7 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
   return (
     <Layout>
       <article className="panel is-primary">
-        <p className="panel-tabs">
+        <p className="panel-tabs" style={{position: 'relative'}}>
           {Object.values(taskTabs).map((v, i) => (
             <a
               key={i}
@@ -66,6 +79,11 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
               onClick={() => setCurrentTab(v)}
             >{v}</a>
           ))}
+          <button
+            className="button is-success is-small"
+            style={{position: 'absolute', right: '2px', alignSelf: 'center'}}
+            onClick={() => setModalProps({show: true, task: null})}
+          >Add task</button>
         </p>
         {filteredTasks.map((task, i) => (
           <TaskCard
@@ -73,9 +91,20 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
             key={i}
             updateTask={updateTask}
             deleteTask={deleteTask}
+            onClick={(event) => setModalProps({show: true, task: event})}
           />
         ))}
       </article>
+      <MutateTaskModal
+        isActive={modalProps.show}
+        taskToUpdate={modalProps.task}
+        createTask={createTask}
+        updateTask={(id, task) => {
+          updateTask(id, task);
+          setModalProps({show: false, task: null})
+        }}
+        close={() => setModalProps({show: false, task: null})}
+      />
     </Layout>
   )
 }
