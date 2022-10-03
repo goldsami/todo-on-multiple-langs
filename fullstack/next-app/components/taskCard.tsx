@@ -21,7 +21,14 @@ export function TaskCard({task, updateTask, deleteTask}: TaskCardProps) {
       />
       <div className="is-full level-left level-item is-flex is-flex-direction-column is-align-items-start">
         <div>{task.name}</div>
-        <div className="is-size-7 has-text-grey">{task.description}</div>
+        <div className="is-size-7 has-text-grey">
+          {task.time &&
+            <b>
+              {new Date(task.time).toLocaleDateString() + '   '}
+            </b>
+          }
+          {task.description}
+        </div>
         {task.user?.id != null && <div>
           <figure className="image is-24x24 mt-1 is-square">
             <img className='is-rounded' src={task.user.image_url}/>
