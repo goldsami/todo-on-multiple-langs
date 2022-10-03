@@ -1,9 +1,15 @@
 import {Task} from "../models";
 
-export function TaskCard({task, update}: { task: Task, update: (id: number, task: Partial<Task>) => any }) {
+type TaskCardProps = {
+  task: Task,
+  updateTask: (id: number, task: Partial<Task>) => any,
+  deleteTask: (id: number) => any
+}
+
+export function TaskCard({task, updateTask, deleteTask}: TaskCardProps) {
   const toggleTaskStatus = async () => {
     const status = task.status === 'open' ? 'done' : 'open'
-    update(task.id, {status})
+    updateTask(task.id, {status})
   }
 
   return (
@@ -22,7 +28,7 @@ export function TaskCard({task, update}: { task: Task, update: (id: number, task
           </figure>
         </div>}
       </div>
-      <button className="delete level-right level-item"></button>
+      <button className="delete level-right level-item" onClick={() => deleteTask(task.id)}></button>
     </a>
   )
 }

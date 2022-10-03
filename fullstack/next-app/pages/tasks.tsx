@@ -30,6 +30,13 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
     }))
   }
 
+  const deleteTask = async (id: number) => {
+    await fetch(`/api/task/${id}`, {
+      method: 'DELETE',
+    })
+    setTasks(tasks.filter(x => x.id !== id))
+  }
+
   const filterTasks = (tasks: Task[]) => {
     switch (currentTab) {
       case taskTabs.all:
@@ -61,7 +68,12 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
           ))}
         </p>
         {filteredTasks.map((task, i) => (
-          <TaskCard task={task} key={i} update={updateTask}/>
+          <TaskCard
+            task={task}
+            key={i}
+            updateTask={updateTask}
+            deleteTask={deleteTask}
+          />
         ))}
       </article>
     </Layout>
@@ -72,6 +84,7 @@ export async function getServerSideProps() {
   const tasks = (await prisma.$queryRaw`
     SELECT "task".*, json_build_object('id', "user"."id", 'image_url' ,"user"."image_url") as "user" FROM "task" 
     LEFT JOIN "user" on "user"."id" = "task"."user_id"
+    WHERE "task"."status" != 'deleted'
     GROUP BY "task"."id", "user"."id"`)
 
   return {

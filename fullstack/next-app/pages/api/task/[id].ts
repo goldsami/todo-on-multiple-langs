@@ -10,10 +10,18 @@ export default async function taskHandler(req: NextApiRequest, res: NextApiRespo
   }
 
   if (method === 'POST') {
-    console.log('status::', {body})
     const task = await prisma.task.update({
       where: {id: +id},
       data: {status: body.status}
+    })
+    res.status(200).json(task)
+    return
+  }
+
+  if (method === 'DELETE') {
+    const task = await prisma.task.update({
+      where: {id: +id},
+      data: {status: 'deleted'}
     })
     res.status(200).json(task)
     return

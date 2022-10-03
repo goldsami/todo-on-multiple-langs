@@ -11,6 +11,6 @@ export interface Task {
   name: string;
   description: string;
   time: Date;
-  status: 'open' | 'done';
+  status: 'open' | 'done' | 'deleted';
   user?: User;
 }
