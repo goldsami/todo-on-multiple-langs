@@ -1,5 +1,6 @@
 import {NextApiRequest, NextApiResponse} from "next";
 import {prisma} from "../../../prisma";
+import {Task, User} from "../../../models";
 
 export default async function taskHandler(req: NextApiRequest, res: NextApiResponse<any>) {
   const {query: {id}, method, body} = req
@@ -20,7 +21,11 @@ export default async function taskHandler(req: NextApiRequest, res: NextApiRespo
         description: body.description,
       }
     })
-    res.status(200).json(task)
+    const result = {...task} as Task
+    if (task.user_id) {
+      result.user = (await prisma.user.findFirst({where: {id: task.user_id}})) as User
+    }
+    res.status(200).json(result)
     return
   }
 

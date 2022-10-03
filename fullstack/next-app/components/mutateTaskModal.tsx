@@ -1,5 +1,6 @@
 import {Task} from "../models";
 import {useEffect, useState} from "react";
+import Select from "react-select";
 
 type MutateTaskModalProps = {
   isActive: boolean,
@@ -9,8 +10,6 @@ type MutateTaskModalProps = {
   close: () => any,
 }
 
-const noUser = {name: '-'}
-
 export function MutateTaskModal({isActive, taskToUpdate, createTask, updateTask, close}: MutateTaskModalProps) {
   const [users, setUsers] = useState<{ id?: number, name: string }[]>([])
   const [name, setName] = useState('')
@@ -19,8 +18,7 @@ export function MutateTaskModal({isActive, taskToUpdate, createTask, updateTask,
   const [time, setTime] = useState<string | null>(null)
 
   const initForm = (task: Task | null) => {
-
-    setUsers([noUser])
+    fetchUsers()
     setName(task?.name || '')
     setDescription(task?.description || '')
     setUserId(task?.user?.id || null)
@@ -32,11 +30,10 @@ export function MutateTaskModal({isActive, taskToUpdate, createTask, updateTask,
       method: 'GET',
     })
     const {users} = await res.json()
-    setUsers([noUser, ...users])
+
+    setUsers(users)
   }
-  useEffect(() => {
-    fetchUsers()
-  }, [])
+
   useEffect(() => {
     initForm(taskToUpdate)
   }, [taskToUpdate])
@@ -93,8 +90,15 @@ export function MutateTaskModal({isActive, taskToUpdate, createTask, updateTask,
           </div>
           <div className="field">
             <label className="label">Assignee: {userId}</label>
-            <div className="select">
-
+            <div>
+              <Select
+                value={{
+                  label: users.find(x => x.id == userId)?.name || 'Select User',
+                  value: userId || undefined
+                }}
+                options={users.map(x => ({value: x.id, label: x.name}))}
+                onChange={(e) => setUserId(e?.value || null)}
+              />
             </div>
           </div>
         </section>

@@ -10,11 +10,13 @@
 		"prisma:pull-db": "npx prisma db pull"
 	},
 	"dependencies": {
+		"@babel/core": "^7.19.3",
 		"@prisma/client": "^4.3.1",
 		"bulma": "^0.9.4",
 		"next": "12.3.0",
 		"react": "18.2.0",
-		"react-dom": "18.2.0"
+		"react-dom": "18.2.0",
+		"react-select": "^5.4.0"
 	},
 	"devDependencies": {
 		"@types/node": "18.7.16",
