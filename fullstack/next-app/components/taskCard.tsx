@@ -3,10 +3,11 @@ import {Task} from "../models";
 type TaskCardProps = {
   task: Task,
   updateTask: (id: number, task: Partial<Task>) => any,
-  deleteTask: (id: number) => any
+  deleteTask: (id: number) => any,
+  onClick: (task: Task) => any
 }
 
-export function TaskCard({task, updateTask, deleteTask}: TaskCardProps) {
+export function TaskCard({task, updateTask, deleteTask, onClick}: TaskCardProps) {
   const toggleTaskStatus = async () => {
     const status = task.status === 'open' ? 'done' : 'open'
     updateTask(task.id, {status})
@@ -19,7 +20,10 @@ export function TaskCard({task, updateTask, deleteTask}: TaskCardProps) {
         checked={task.status === 'done'}
         onChange={() => toggleTaskStatus()}
       />
-      <div className="is-full level-left level-item is-flex is-flex-direction-column is-align-items-start">
+      <div
+        className="is-full level-left level-item is-flex is-flex-direction-column is-align-items-start"
+        onClick={() => onClick(task)}
+      >
         <div>{task.name}</div>
         <div className="is-size-7 has-text-grey">
           {task.time &&
