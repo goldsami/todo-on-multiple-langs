@@ -5,7 +5,7 @@ Same Todo app written on different languages and frameworks
 - [Fullstack](#fullstack)
     - [Next.js](#nextjs)
  - [Database](#database)
-   - [Setup database](#setup-database)
+   - [Setup database](#database-setup)
 
 ## Fullstack
 Fullstack apps are available on `http://localhost:3000` port
@@ -18,7 +18,7 @@ npm run dev
 
 ## Database
 
-### Setup
+### Database setup
 Go to `database` folder and run the following command to run docker container with db:
 ```
 docker-compose up
