@@ -9,7 +9,7 @@ exports.up = function (knex) {
     table.string('description')
     table.integer('user_id').references('id').inTable('user')
     table.datetime('time')
-    table.enum('status', ['open', 'done']).defaultTo('open')
+    table.enum('status', ['open', 'done', 'deleted']).defaultTo('open')
   })
 }
 
