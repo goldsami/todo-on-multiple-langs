@@ -9,10 +9,16 @@ export default async function taskHandler(req: NextApiRequest, res: NextApiRespo
     return
   }
 
-  if (method === 'POST') {
+  if (method === 'PUT') {
     const task = await prisma.task.update({
       where: {id: +id},
-      data: {status: body.status}
+      data: {
+        user_id: body.userId,
+        status: body.status,
+        time: body.time,
+        name: body.name,
+        description: body.description,
+      }
     })
     res.status(200).json(task)
     return
