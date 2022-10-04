@@ -6,23 +6,23 @@ export async function taskController(req, res) {
   const {url, method} = req
 
   if (method === 'GET' && url === '/api/tasks') {
-    return getTasks(req, res)
+    return getTasksController(req, res)
   }
   if (method === 'POST' && url === '/api/tasks') {
-    return createTask(req, res)
+    return createTaskController(req, res)
   }
   if (
-    method === 'PUT'
-    && url.startsWith('/api/tasks/')
+    url.startsWith('/api/tasks/')
     && !isNaN(url.split('/api/tasks/')[1])
     && url.split('/api/tasks/')[1].length > 0
   ) {
-    return updateTask(req, res, +url.split('/api/tasks/')[1])
+    if (method === 'PUT') return updateTaskController(req, res, +url.split('/api/tasks/')[1])
+    if (method === 'DELETE') return deleteTaskController(req, res, +url.split('/api/tasks/')[1])
   }
 
 }
 
-async function getTasks(req, res) {
+async function getTasksController(req, res) {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
   const {rows: tasks} = await knexClient.raw(`
@@ -34,7 +34,7 @@ async function getTasks(req, res) {
   res.end(JSON.stringify(tasks))
 }
 
-async function createTask(req, res) {
+async function createTaskController(req, res) {
   let body = []
   req.on('data', (chunk) => {
     body.push(chunk);
@@ -45,14 +45,23 @@ async function createTask(req, res) {
   });
 }
 
-async function updateTask(req, res, taskId) {
+async function updateTaskController(req, res, taskId) {
   let body = []
   req.on('data', (chunk) => {
     body.push(chunk);
   }).on('end', async () => {
     body = JSON.parse(Buffer.concat(body).toString());
-    const task = await knexClient('task').where({id: taskId})
-      .update(body).returning('*');
+    const task = await updateTask(taskId, body)
     res.end(JSON.stringify(task[0]))
   });
+}
+
+async function deleteTaskController(req, res, taskId) {
+  const task = await updateTask(taskId, {status: 'deleted'})
+  res.end(JSON.stringify(task[0]))
+}
+
+async function updateTask(taskId, data) {
+  return knexClient('task').where({id: taskId})
+    .update(data).returning('*');
 }
