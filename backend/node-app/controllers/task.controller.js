@@ -1,5 +1,5 @@
 import {knexClient} from "../knex.js";
-import { Buffer } from 'node:buffer';
+import {Buffer} from 'node:buffer';
 
 
 export async function taskController(req, res) {
@@ -9,14 +9,7 @@ export async function taskController(req, res) {
     return getTasks(req, res)
   }
   if (method === 'POST' && url === '/api/tasks') {
-    let body = []
-    req.on('data', (chunk) => {
-      body.push(chunk);
-    }).on('end', async () => {
-      body = JSON.parse(Buffer.concat(body).toString());
-      const task = await knexClient('task').insert(body).returning('*');
-      res.end(JSON.stringify(task[0]))
-    });
+    return createTask(req, res)
   }
 
 }
@@ -31,4 +24,15 @@ async function getTasks(req, res) {
     GROUP BY "task"."id", "user"."id"
   `)
   res.end(JSON.stringify(tasks))
+}
+
+async function createTask(req, res) {
+  let body = []
+  req.on('data', (chunk) => {
+    body.push(chunk);
+  }).on('end', async () => {
+    body = JSON.parse(Buffer.concat(body).toString());
+    const task = await knexClient('task').insert(body).returning('*');
+    res.end(JSON.stringify(task[0]))
+  });
 }
