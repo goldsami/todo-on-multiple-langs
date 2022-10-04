@@ -11,6 +11,14 @@ export async function taskController(req, res) {
   if (method === 'POST' && url === '/api/tasks') {
     return createTask(req, res)
   }
+  if (
+    method === 'PUT'
+    && url.startsWith('/api/tasks/')
+    && !isNaN(url.split('/api/tasks/')[1])
+    && url.split('/api/tasks/')[1].length > 0
+  ) {
+    return updateTask(req, res, +url.split('/api/tasks/')[1])
+  }
 
 }
 
@@ -33,6 +41,18 @@ async function createTask(req, res) {
   }).on('end', async () => {
     body = JSON.parse(Buffer.concat(body).toString());
     const task = await knexClient('task').insert(body).returning('*');
+    res.end(JSON.stringify(task[0]))
+  });
+}
+
+async function updateTask(req, res, taskId) {
+  let body = []
+  req.on('data', (chunk) => {
+    body.push(chunk);
+  }).on('end', async () => {
+    body = JSON.parse(Buffer.concat(body).toString());
+    const task = await knexClient('task').where({id: taskId})
+      .update(body).returning('*');
     res.end(JSON.stringify(task[0]))
   });
 }
