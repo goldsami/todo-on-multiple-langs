@@ -1,11 +1,13 @@
 # todo-on-multiple-langs
-Same Todo app written on different languages and frameworks
+Same Todo app written on different languages and frameworks.
 
 # Contents
 - [Database](#database)
     - [Setup database](#database-setup)
 - [Fullstack](#fullstack)
     - [Next.js](#nextjs)
+- [Backend](#backend)
+    - [Node.js](#nodejs)
 
 ## Database
 
@@ -24,10 +26,20 @@ npm run seed:run
 ```
 
 ## Fullstack
-Fullstack apps are available on `http://localhost:3000` port
+Fullstack apps are available on `http://localhost:3000` port.
 
 ### Next.js
 To run `next.js` project go to `fullstack/next-app` folder and execute the following command:
+```
+npm run dev
+```
+
+## Backend
+
+Backend apps are available on `http://localhost:4000` port.
+
+### Node.js
+To run `node.js` project go to `fullstack/node-app` folder and execute the following command:
 ```
 npm run dev
 ```
