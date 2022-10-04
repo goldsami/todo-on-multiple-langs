@@ -30,5 +30,5 @@ async function getTasks(req, res) {
     WHERE "task"."status" != 'deleted'
     GROUP BY "task"."id", "user"."id"
   `)
-  res.end(JSON.stringify({data: tasks}))
+  res.end(JSON.stringify(tasks))
 }
