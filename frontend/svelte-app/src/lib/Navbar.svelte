@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { link } from 'svelte-routing';
+
   let expandNavbar = false;
 </script>
 
@@ -24,10 +26,12 @@
     >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/tasks">Tasks</a>
+          <a class="nav-link active" use:link aria-current="page" href="/tasks"
+            >Tasks</a
+          >
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/users">Users</a>
+          <a class="nav-link" use:link href="/users">Users</a>
         </li>
       </ul>
     </div>
