@@ -36,12 +36,12 @@
     >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" use:link aria-current="page" href="/tasks"
+          <a class="nav-link" class:active={activeTab === 'tasks'} use:link aria-current="page" href="/tasks"
             >Tasks</a
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link" use:link href="/users">Users</a>
+          <a class="nav-link" class:active={activeTab === 'users'} use:link href="/users">Users</a>
         </li>
       </ul>
     </div>
