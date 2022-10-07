@@ -1,41 +1,44 @@
 <script lang="ts">
   import {createEventDispatcher, onMount} from "svelte";
   import {Button, Form, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader} from "sveltestrap";
+  import Select from "svelte-select";
   import type {Task} from "./models";
   import axios from "axios";
 
-  onMount(() => axios.get('http://localhost:4000/api/users').then(({data}) => users = data))
+  onMount(() => axios.get('http://localhost:4000/api/users')
+    .then(({data}) => userOptions = data.map(x => ({value: x.id, label: x.name}))))
 
   export let show = false
   export let task: Task = null
 
-  let users = []
-
   let time = null
   let name = ''
   let description = ''
-  let userId = null
+  let selectedUserOption = null
 
-  $: updateForm(task)
-  $: formValid = !!name
+  let userOptions: {value: string, label: string}[] = []
 
   const updateForm = (task: Task) => {
     name = task?.name || ''
     description = task?.description || ''
     time = task?.time ? new Date(task.time).toISOString().split(':').slice(0, -1).join(':') : null
+    selectedUserOption = task?.user ? {value: task.user.id, label: task.user.name} : null
   }
 
   const dispatch = createEventDispatcher()
   const close = () => dispatch('close')
   const save = () => {
-    console.log('save', {name, description})
     dispatch('save', {
       ...task,
       name,
       description,
       time,
+      user_id: selectedUserOption.value,
     })
   }
+
+  $: updateForm(task)
+  $: formValid = !!name
 
 </script>
 
@@ -51,6 +54,9 @@
             </FormGroup>
             <FormGroup floating label="Date">
                 <Input bind:value={time} placeholder="Enter a value" type="datetime-local"/>
+            </FormGroup>
+            <FormGroup label="">
+                <Select bind:value={selectedUserOption} items={userOptions}></Select>
             </FormGroup>
 
         </Form>

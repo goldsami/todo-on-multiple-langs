@@ -24,6 +24,7 @@
     "axios": "^1.0.0",
     "bootstrap": "^5.2.2",
     "svelte-navigator": "^3.2.2",
+    "svelte-select": "^4.4.7",
     "sveltestrap": "^5.9.0"
   }
 }
