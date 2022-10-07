@@ -18,6 +18,7 @@ export async function taskController(req, res) {
   ) {
     if (method === 'PUT') return updateTaskController(req, res, +url.split('/api/tasks/')[1])
     if (method === 'DELETE') return deleteTaskController(req, res, +url.split('/api/tasks/')[1])
+    return res.end()
   }
 
 }
