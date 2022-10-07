@@ -22,7 +22,8 @@
   "dependencies": {
     "@sveltestack/svelte-query": "^1.6.0",
     "axios": "^1.0.0",
-    "bootstrap": "^5.2.2",
-    "svelte-navigator": "^3.2.2"
+    "boostrap": "^2.0.0",
+    "svelte-navigator": "^3.2.2",
+    "sveltestrap": "^5.9.0"
   }
 }
