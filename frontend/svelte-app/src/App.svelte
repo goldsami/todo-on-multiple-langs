@@ -1,6 +1,6 @@
 <script lang="ts">
   import Navbar from './lib/Navbar.svelte';
-  import { Router, Route } from 'svelte-routing';
+  import {Router, Route} from 'svelte-navigator';
   import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
   import Users from './lib/pages/Users.svelte';
   import Tasks from './lib/pages/Tasks.svelte';

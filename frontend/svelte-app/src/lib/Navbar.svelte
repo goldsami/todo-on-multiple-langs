@@ -1,5 +1,15 @@
 <script lang="ts">
-  import { link } from 'svelte-routing';
+  import {link, useLocation, useNavigate} from 'svelte-navigator';
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const redirectIfNeeded = (location: string) => {
+    if (location === '/') navigate('/tasks')
+  }
+
+  $: activeTab = $location.pathname.slice(1)
+  $: redirectIfNeeded($location.pathname)
 
   let expandNavbar = false;
 </script>

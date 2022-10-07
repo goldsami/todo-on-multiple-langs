@@ -23,6 +23,6 @@
     "@sveltestack/svelte-query": "^1.6.0",
     "axios": "^1.0.0",
     "bootstrap": "^5.2.2",
-    "svelte-routing": "^1.6.0"
+    "svelte-navigator": "^3.2.2"
   }
 }
