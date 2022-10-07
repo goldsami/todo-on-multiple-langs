@@ -33,7 +33,7 @@
       name,
       description,
       time,
-      user_id: selectedUserOption.value,
+      user_id: selectedUserOption?.value || null,
     })
   }
 
