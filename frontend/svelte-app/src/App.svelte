@@ -1,7 +1,7 @@
 <script lang="ts">
   import Navbar from './lib/Navbar.svelte';
-  import {Router, Route} from 'svelte-navigator';
-  import { QueryClient, QueryClientProvider } from '@sveltestack/svelte-query';
+  import {Route, Router} from 'svelte-navigator';
+  import {QueryClient, QueryClientProvider} from '@sveltestack/svelte-query';
   import Users from './lib/pages/Users.svelte';
   import Tasks from './lib/pages/Tasks.svelte';
 
@@ -11,14 +11,14 @@
 </script>
 
 <QueryClientProvider client={queryClient}>
-  <Router {url}>
-    <Navbar />
-    <div class="content">
-      <Route path="/" component={Tasks} />
-      <Route path="tasks" component={Tasks} />
-      <Route path="users" component={Users} />
-    </div>
-  </Router>
+    <Router {url}>
+        <Navbar/>
+        <div class="content">
+            <Route component={Tasks} path="/"/>
+            <Route component={Tasks} path="tasks"/>
+            <Route component={Users} path="users"/>
+        </div>
+    </Router>
 </QueryClientProvider>
 
 <style>
