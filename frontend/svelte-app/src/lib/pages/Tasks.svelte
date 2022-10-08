@@ -22,6 +22,20 @@
       queryClient.invalidateQueries('tasks')
     }
   })
+  const createTaskMutation = useMutation((task: Partial<Task>) => {
+    return axios.post(`http://localhost:4000/api/tasks`, task)
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('tasks')
+    }
+  })
+  const updateTaskMutation = useMutation(({id, user, ...task}: Partial<Task>) => {
+    return axios.put(`http://localhost:4000/api/tasks/${id}`, task)
+  }, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('tasks')
+    }
+  })
 
   const closeModal = () => {
     modalState = {
@@ -31,7 +45,11 @@
   }
 
   const saveTask = (task: Task) => {
-    console.log({task})
+    if (task.id) {
+      $updateTaskMutation.mutate(task)
+    } else {
+      $createTaskMutation.mutate(task)
+    }
     closeModal()
   }
 </script>
