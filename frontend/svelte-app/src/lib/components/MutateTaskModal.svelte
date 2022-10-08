@@ -2,7 +2,7 @@
   import {createEventDispatcher, onMount} from "svelte";
   import {Button, Form, FormGroup, Input, Modal, ModalBody, ModalFooter, ModalHeader} from "sveltestrap";
   import Select from "svelte-select";
-  import type {Task} from "./models";
+  import type {Task} from "../models";
   import axios from "axios";
 
   onMount(() => axios.get('http://localhost:4000/api/users')

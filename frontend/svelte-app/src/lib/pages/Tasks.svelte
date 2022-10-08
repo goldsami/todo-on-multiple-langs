@@ -1,7 +1,7 @@
 <script lang="ts">
   import {useMutation, useQuery, useQueryClient} from '@sveltestack/svelte-query';
   import axios from 'axios';
-  import MutateTaskModal from "../MutateTaskModal.svelte";
+  import MutateTaskModal from "../components/MutateTaskModal.svelte";
   import type {Task} from "../models";
 
   let modalState = {
