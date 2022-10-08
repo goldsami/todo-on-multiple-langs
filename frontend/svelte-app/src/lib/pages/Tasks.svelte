@@ -3,6 +3,7 @@
   import axios from 'axios';
   import MutateTaskModal from "../components/MutateTaskModal.svelte";
   import type {Task} from "../models";
+  import TaskCard from "../components/TaskCard.svelte";
 
   let modalState = {
     show: false,
@@ -60,11 +61,10 @@
     <span>An error has occurred: {$queryResult.error.message}</span>
 {:else}
     {#each $queryResult.data.data as task}
-        <b on:click={() => modalState = {show: true, task}}>{task.name}</b>
-        <div>{task.description}</div>
-        <button on:click={() => $deleteTaskMutation.mutate(task.id)}>delete task</button>
-        <br/>
-        <br/>
+        <TaskCard {task}
+                  on:deleteTask={({detail}) => $deleteTaskMutation.mutate(detail)}
+                  on:onClick={(detail) => modalState = {show: true, task: detail}}
+        />
     {/each}
 {/if}
 <br/>
