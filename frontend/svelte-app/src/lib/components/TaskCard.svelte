@@ -32,9 +32,14 @@
             </CardText>
         </CardBody>
     {/if}
-    {#if task.user?.image_url}
+    {#if task.user?.image_url || task.time}
         <CardFooter>
-            <img src={task.user.image_url} class="img-thumbnail rounded-circle" alt="...">
+            {#if task.user?.image_url}
+                <img src={task.user.image_url} class="img-thumbnail rounded-circle" alt="...">
+            {/if}
+            {#if task.time}
+                <span>{new Date(task.time).toLocaleDateString()}</span>
+            {/if}
         </CardFooter>
     {/if}
 </Card>
