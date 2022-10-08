@@ -14,12 +14,21 @@
   function onClick() {
     dispatch('onClick', task)
   }
+
+  function updateStatus() {
+    if (task.status === 'open') dispatch('updateStatus', 'done')
+    if (task.status === 'done') dispatch('updateStatus', 'opened')
+  }
 </script>
 
 <Card class="m-4">
     <CardHeader class="d-inline-flex justify-content-between">
-        <div on:click={onClick}>
-            <CardTitle>{task.name}</CardTitle>
+        <div class="d-inline-flex">
+            <input class="form-check-input me-2"
+                   on:click={updateStatus}
+                   type="checkbox" checked={task.status === 'done'}
+                   aria-label="Checkbox for following text input">
+            <div on:click={onClick}><CardTitle>{task.name}</CardTitle></div>
         </div>
         <div on:click={deleteTask}>
             <Icon name="trash" />

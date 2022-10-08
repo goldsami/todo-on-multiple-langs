@@ -92,6 +92,7 @@
         <TaskCard {task}
                   on:deleteTask={({detail}) => $deleteTaskMutation.mutate(detail)}
                   on:onClick={(detail) => modalState = {show: true, task: detail}}
+                  on:updateStatus={({detail}) => saveTask({...task, status: detail})}
         />
     {/each}
 {/if}
