@@ -4,6 +4,7 @@
   import MutateTaskModal from "../components/MutateTaskModal.svelte";
   import type {Task} from "../models";
   import TaskCard from "../components/TaskCard.svelte";
+  import {Button} from "sveltestrap";
 
   const taskTabs = {
     all: 'All',
@@ -94,10 +95,7 @@
         />
     {/each}
 {/if}
-<br/>
-<br/>
-<br/>
-<button on:click={() => modalState.show = true}>Create task</button>
+<Button class="m-4" on:click={() => modalState.show = true}>Create task</Button>
 <MutateTaskModal
         on:close={closeModal}
         on:save={(e) => saveTask(e.detail)}
