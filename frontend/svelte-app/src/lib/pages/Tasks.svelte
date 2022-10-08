@@ -5,9 +5,28 @@
   import type {Task} from "../models";
   import TaskCard from "../components/TaskCard.svelte";
 
+  const taskTabs = {
+    all: 'All',
+    upcoming: 'Upcoming',
+    done: 'Done'
+  }
+
+  let currentTab = taskTabs.all
+
   let modalState = {
     show: false,
     task: null,
+  }
+
+  const filterTasks = (tasks: Task[], currentTab: string) => {
+    switch (currentTab) {
+      case taskTabs.all:
+        return tasks
+      case taskTabs.upcoming:
+        return tasks.filter(x => x.time && new Date() < new Date(x.time))
+      case taskTabs.done:
+        return tasks.filter(x => x.status === 'done')
+    }
   }
 
   const queryClient = useQueryClient()
@@ -53,6 +72,8 @@
     }
     closeModal()
   }
+
+  $: filteredTasks = filterTasks($queryResult?.data?.data, currentTab)
 </script>
 
 {#if $queryResult.isLoading}
@@ -60,7 +81,13 @@
 {:else if $queryResult.error}
     <span>An error has occurred: {$queryResult.error.message}</span>
 {:else}
-    {#each $queryResult.data.data as task}
+    <ul class="nav nav-tabs">
+        {#each Object.values(taskTabs) as tab}
+            <a class="nav-link" class:active={tab === currentTab} href="#"
+            on:click={() => currentTab = tab}>{tab}</a>
+        {/each}
+    </ul>
+    {#each filteredTasks as task}
         <TaskCard {task}
                   on:deleteTask={({detail}) => $deleteTaskMutation.mutate(detail)}
                   on:onClick={(detail) => modalState = {show: true, task: detail}}
