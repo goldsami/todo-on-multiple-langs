@@ -1,48 +1,42 @@
 <script lang="ts">
-    import type { Task } from '../models';
-    import { createEventDispatcher } from 'svelte';
-    import {
-        Card,
-        CardBody,
-        CardFooter,
-        CardHeader,
-        CardText,
-        CardTitle,
-        Icon,
-    } from 'sveltestrap';
+  import type {Task} from '../models';
+  import {createEventDispatcher} from 'svelte';
+  import {Card, CardBody, CardFooter, CardHeader, CardText, CardTitle, Icon,} from 'sveltestrap';
 
-    export let task: Task;
+  export let task: Task;
 
-    const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher();
 
-    function deleteTask() {
-        dispatch('deleteTask', task.id);
-    }
+  function deleteTask() {
+    dispatch('deleteTask', task.id);
+  }
 
-    function onClick() {
-        dispatch('onClick', task);
-    }
+  function onClick() {
+    dispatch('onClick', task);
+  }
 
-    function updateStatus() {
-        if (task.status === 'open') dispatch('updateStatus', 'done');
-        if (task.status === 'done') dispatch('updateStatus', 'open');
-    }
+  function updateStatus() {
+    if (task.status === 'open') dispatch('updateStatus', 'done');
+    if (task.status === 'done') dispatch('updateStatus', 'open');
+  }
 </script>
 
 <Card class="m-4">
     <CardHeader class="d-inline-flex justify-content-between">
         <div class="d-inline-flex">
             <input
-                class="form-check-input me-2"
-                on:click={updateStatus}
-                type="checkbox"
-                checked={task.status === 'done'}
-                aria-label="Checkbox for following text input"
+                    aria-label="Checkbox for following text input"
+                    checked={task.status === 'done'}
+                    class="form-check-input me-2"
+                    on:click={updateStatus}
+                    type="checkbox"
             />
-            <div on:click={onClick}><CardTitle>{task.name}</CardTitle></div>
+            <div on:click={onClick}>
+                <CardTitle>{task.name}</CardTitle>
+            </div>
         </div>
         <div on:click={deleteTask}>
-            <Icon name="trash" />
+            <Icon name="trash"/>
         </div>
     </CardHeader>
     {#if task.description}
@@ -56,9 +50,9 @@
         <CardFooter>
             {#if task.user?.image_url}
                 <img
-                    src={task.user.image_url}
-                    class="img-thumbnail rounded-circle"
-                    alt="..."
+                        src={task.user.image_url}
+                        class="img-thumbnail rounded-circle"
+                        alt="..."
                 />
             {/if}
             {#if task.time}

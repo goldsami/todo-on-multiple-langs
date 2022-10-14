@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../prisma";
-import { Task, User } from "../../models";
+import {NextApiRequest, NextApiResponse} from "next";
+import {prisma} from "../../prisma";
+import {Task, User} from "../../models";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-  const { method, body } = req
-  const { name, description, time, userId } = JSON.parse(body)
+  const {method, body} = req
+  const {name, description, time, userId} = JSON.parse(body)
 
   if (method === 'POST') {
     const task = await prisma.tasks.create({
@@ -24,9 +24,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       status: task.status,
     } as Task
     if (task.user_id != null) {
-      result.user = (await prisma.users.findFirst({ where: { id: task.user_id } })) as User
+      result.user = (await prisma.users.findFirst({where: {id: task.user_id}})) as User
     }
-    res.status(200).json({ task: result })
+    res.status(200).json({task: result})
     return
   }
 

@@ -85,7 +85,7 @@
     <ul class="nav nav-tabs">
         {#each Object.values(taskTabs) as tab}
             <a class="nav-link" class:active={tab === currentTab} href="#"
-            on:click={() => currentTab = tab}>{tab}</a>
+               on:click={() => currentTab = tab}>{tab}</a>
         {/each}
     </ul>
     {#each filteredTasks as task}

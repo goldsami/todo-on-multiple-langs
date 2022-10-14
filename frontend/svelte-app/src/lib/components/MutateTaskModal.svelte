@@ -16,7 +16,7 @@
   let description = ''
   let selectedUserOption = null
 
-  let userOptions: {value: string, label: string}[] = []
+  let userOptions: { value: string, label: string }[] = []
 
   const updateForm = (task: Task) => {
     name = task?.name || ''

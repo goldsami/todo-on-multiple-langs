@@ -1,7 +1,7 @@
-import { knexClient } from "../knex.js";
+import {knexClient} from "../knex.js";
 
 export async function userController(req, res) {
-  const { url, method } = req
+  const {url, method} = req
 
   if (method === 'GET' && url === '/api/users') {
     return getUsersController(req, res)

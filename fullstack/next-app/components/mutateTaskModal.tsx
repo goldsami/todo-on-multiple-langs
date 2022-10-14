@@ -53,7 +53,7 @@ export function MutateTaskModal({isActive, taskToUpdate, createTask, updateTask,
         name,
         description,
         userId,
-        time: time ? new Date(time): null
+        time: time ? new Date(time) : null
       })
     }
   }
