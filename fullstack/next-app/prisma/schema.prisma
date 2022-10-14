@@ -19,20 +19,20 @@ model knex_migrations_lock {
   is_locked Int?
 }
 
-model task {
+model tasks {
   id          Int       @id @default(autoincrement())
   name        String?   @db.VarChar(255)
   description String?   @db.VarChar(255)
   user_id     Int?
   time        DateTime? @db.Timestamptz(6)
   status      String?   @default("open")
-  user        user?     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "task_user_id_foreign")
+  users       users?    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tasks_user_id_foreign")
 }
 
-model user {
+model users {
   id          Int     @id @default(autoincrement())
   name        String? @db.VarChar(255)
   description String? @db.VarChar(255)
   image_url   String? @db.VarChar(255)
-  task        task[]
+  tasks       tasks[]
 }

@@ -1,9 +1,9 @@
-import {knexClient} from "../knex.js";
-import {Buffer} from 'node:buffer';
+import { knexClient } from "../knex.js";
+import { Buffer } from 'node:buffer';
 
 
 export async function taskController(req, res) {
-  const {url, method} = req
+  const { url, method } = req
 
   if (method === 'GET' && url === '/api/tasks') {
     return getTasksController(req, res)
@@ -26,9 +26,9 @@ export async function taskController(req, res) {
 async function getTasksController(req, res) {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json');
-  const {rows: tasks} = await knexClient.raw(`
-    SELECT "task".*, json_build_object('id', "user"."id", 'image_url' ,"user"."image_url") as "user" FROM "task"
-    LEFT JOIN "user" on "user"."id" = "task"."user_id"
+  const { rows: tasks } = await knexClient.raw(`
+    SELECT "task".*, json_build_object('id', "user"."id", 'image_url' ,"user"."image_url") as "user" FROM "tasks" as "task"
+    LEFT JOIN "users" as "user" on "user"."id" = "task"."user_id"
     WHERE "task"."status" != 'deleted'
     GROUP BY "task"."id", "user"."id"
   `)
@@ -41,7 +41,7 @@ async function createTaskController(req, res) {
     body.push(chunk);
   }).on('end', async () => {
     body = JSON.parse(Buffer.concat(body).toString());
-    const task = await knexClient('task').insert(body).returning('*');
+    const task = await knexClient('tasks').insert(body).returning('*');
     res.end(JSON.stringify(task[0]))
   });
 }
@@ -58,11 +58,11 @@ async function updateTaskController(req, res, taskId) {
 }
 
 async function deleteTaskController(req, res, taskId) {
-  const task = await updateTask(taskId, {status: 'deleted'})
+  const task = await updateTask(taskId, { status: 'deleted' })
   res.end(JSON.stringify(task[0]))
 }
 
 async function updateTask(taskId, data) {
-  return knexClient('task').where({id: taskId})
+  return knexClient('tasks').where({ id: taskId })
     .update(data).returning('*');
 }

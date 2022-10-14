@@ -1,12 +1,12 @@
-import {NextApiRequest, NextApiResponse} from "next";
-import {prisma} from "../../prisma";
+import { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "../../prisma";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
-  const {method} = req
+  const { method } = req
 
   if (method === 'GET') {
-    const users = await prisma.user.findMany()
-    res.status(200).json({users})
+    const users = await prisma.users.findMany()
+    res.status(200).json({ users })
     return
   }
 

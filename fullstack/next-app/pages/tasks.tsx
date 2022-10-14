@@ -1,9 +1,9 @@
-import {prisma} from "../prisma";
-import {Task} from "../models";
+import { prisma } from "../prisma";
+import { Task } from "../models";
 import Layout from "../components/layout";
-import {TaskCard} from "../components/taskCard";
-import {useEffect, useState} from "react";
-import {MutateTaskModal} from "../components/mutateTaskModal";
+import { TaskCard } from "../components/taskCard";
+import { useEffect, useState } from "react";
+import { MutateTaskModal } from "../components/mutateTaskModal";
 
 const taskTabs = {
   all: 'All',
@@ -11,11 +11,11 @@ const taskTabs = {
   done: 'Done'
 }
 
-export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
+export default function Tasks({ tasks: _tasks }: { tasks: Task[] }) {
   const [currentTab, setCurrentTab] = useState(taskTabs.all)
   const [tasks, setTasks] = useState<Task[]>(_tasks)
   const [filteredTasks, setFilteredTasks] = useState<Task[]>([])
-  const [modalProps, setModalProps] = useState<{show: boolean, task: Task | null}>({show: false, task: null})
+  const [modalProps, setModalProps] = useState<{ show: boolean, task: Task | null }>({ show: false, task: null })
 
   const updateTask = async (id: number, task: Partial<Task>) => {
     const res = await fetch(`/api/task/${id}`, {
@@ -27,7 +27,7 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
     })
     const data = await res.json()
     setTasks(tasks.map(x => {
-      if (x.id === id) return {...x, ...data}
+      if (x.id === id) return { ...x, ...data }
       else return x
     }))
   }
@@ -44,10 +44,10 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
       method: 'POST',
       body: JSON.stringify(newTask)
     })
-    const {task} = await res.json()
+    const { task } = await res.json()
 
     setTasks([task, ...tasks])
-    setModalProps({show: false, task: null})
+    setModalProps({ show: false, task: null })
   }
 
   const filterTasks = (tasks: Task[]) => {
@@ -71,7 +71,7 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
   return (
     <Layout>
       <article className="panel is-primary">
-        <p className="panel-tabs" style={{position: 'relative'}}>
+        <p className="panel-tabs" style={{ position: 'relative' }}>
           {Object.values(taskTabs).map((v, i) => (
             <a
               key={i}
@@ -81,8 +81,8 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
           ))}
           <button
             className="button is-success is-small"
-            style={{position: 'absolute', right: '2px', alignSelf: 'center'}}
-            onClick={() => setModalProps({show: true, task: null})}
+            style={{ position: 'absolute', right: '2px', alignSelf: 'center' }}
+            onClick={() => setModalProps({ show: true, task: null })}
           >Add task</button>
         </p>
         {filteredTasks.map((task, i) => (
@@ -91,7 +91,7 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
             key={i}
             updateTask={updateTask}
             deleteTask={deleteTask}
-            onClick={(event) => setModalProps({show: true, task: event})}
+            onClick={(event) => setModalProps({ show: true, task: event })}
           />
         ))}
       </article>
@@ -101,9 +101,9 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
         createTask={createTask}
         updateTask={(id, task) => {
           updateTask(id, task);
-          setModalProps({show: false, task: null})
+          setModalProps({ show: false, task: null })
         }}
-        close={() => setModalProps({show: false, task: null})}
+        close={() => setModalProps({ show: false, task: null })}
       />
     </Layout>
   )
@@ -111,8 +111,8 @@ export default function Tasks({tasks: _tasks}: { tasks: Task[] }) {
 
 export async function getServerSideProps() {
   const tasks = (await prisma.$queryRaw`
-    SELECT "task".*, json_build_object('id', "user"."id", 'image_url' ,"user"."image_url") as "user" FROM "task" 
-    LEFT JOIN "user" on "user"."id" = "task"."user_id"
+    SELECT "task".*, json_build_object('id', "user"."id", 'image_url' ,"user"."image_url") as "user" FROM "tasks" as "task" 
+    LEFT JOIN "users" as "user" on "user"."id" = "task"."user_id"
     WHERE "task"."status" != 'deleted'
     GROUP BY "task"."id", "user"."id"`)
 

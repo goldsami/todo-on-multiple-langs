@@ -1,9 +1,9 @@
-import {NextApiRequest, NextApiResponse} from "next";
-import {prisma} from "../../../prisma";
-import {Task, User} from "../../../models";
+import { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "../../../prisma";
+import { Task, User } from "../../../models";
 
 export default async function taskHandler(req: NextApiRequest, res: NextApiResponse<any>) {
-  const {query: {id}, method, body} = req
+  const { query: { id }, method, body } = req
 
   if (!id || isNaN(+id)) {
     res.end('id is invalid')
@@ -11,8 +11,8 @@ export default async function taskHandler(req: NextApiRequest, res: NextApiRespo
   }
 
   if (method === 'PUT') {
-    const task = await prisma.task.update({
-      where: {id: +id},
+    const task = await prisma.tasks.update({
+      where: { id: +id },
       data: {
         user_id: body.userId,
         status: body.status,
@@ -21,18 +21,18 @@ export default async function taskHandler(req: NextApiRequest, res: NextApiRespo
         description: body.description,
       }
     })
-    const result = {...task} as Task
+    const result = { ...task } as Task
     if (task.user_id) {
-      result.user = (await prisma.user.findFirst({where: {id: task.user_id}})) as User
+      result.user = (await prisma.users.findFirst({ where: { id: task.user_id } })) as User
     }
     res.status(200).json(result)
     return
   }
 
   if (method === 'DELETE') {
-    const task = await prisma.task.update({
-      where: {id: +id},
-      data: {status: 'deleted'}
+    const task = await prisma.tasks.update({
+      where: { id: +id },
+      data: { status: 'deleted' }
     })
     res.status(200).json(task)
     return
