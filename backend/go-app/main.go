@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"todo/controllers"
 	"todo/repository"
 
 	"github.com/gin-gonic/gin"
@@ -25,8 +26,7 @@ func main() {
 	port := ":4000"
 	router := gin.Default()
 	router.GET("/api/tasks", func(c *gin.Context) {
-		tasks := repo.GetTasks()
-		c.IndentedJSON(http.StatusOK, tasks)
+		controllers.GetTasksController(c, repo)
 	})
 	router.POST("/api/tasks", func(c *gin.Context) {
 		var requestBody MutateTaskType
