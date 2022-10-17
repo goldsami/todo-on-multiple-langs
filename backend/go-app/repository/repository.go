@@ -17,6 +17,12 @@ func (self *Repository) CreateTask(task Task) Task {
 	return task
 }
 
+func(self *Repository) UpdateTask(id int, task Task) Task {
+	var res Task
+	self.db.First(&res, id).UpdateColumns(task)
+	return res
+}
+
 func GetInstance() (*Repository, error) {
 	db, err := GetDb()
 

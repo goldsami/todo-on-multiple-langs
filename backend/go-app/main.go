@@ -23,5 +23,8 @@ func main() {
 	router.POST("/api/tasks", func(c *gin.Context) {
 		controllers.PostTaskController(c, repo)
 	})
+	router.PUT("/api/tasks/:id", func(c *gin.Context) {
+		controllers.PutTaskController(c, repo)
+	})
 	router.Run(port)
 }
