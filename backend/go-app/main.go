@@ -29,5 +29,8 @@ func main() {
 	router.PUT("/api/tasks/:id", func(c *gin.Context) {
 		controllers.PutTaskController(c, repo)
 	})
+	router.DELETE("/api/tasks/:id", func(c *gin.Context) {
+		controllers.DeleteTaskController(c, repo)
+	})
 	router.Run(port)
 }

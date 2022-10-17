@@ -12,6 +12,7 @@ func (self *Repository) GetUsers() []User {
 	return users
 }
 
+// TODO: filter deleted and get user
 func (self *Repository) GetTasks() []Task {
 	var tasks []Task
 	self.db.Find(&tasks)
@@ -27,6 +28,12 @@ func(self *Repository) UpdateTask(id int, task Task) Task {
 	var res Task
 	self.db.First(&res, id).UpdateColumns(task)
 	return res
+}
+
+func (self *Repository) DeleteTask(id int) Task {
+	var task Task
+	self.db.First(&task, id).UpdateColumn("status", "deleted")
+	return task
 }
 
 func GetInstance() (*Repository, error) {

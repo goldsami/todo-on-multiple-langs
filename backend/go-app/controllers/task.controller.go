@@ -42,3 +42,17 @@ func PutTaskController(c *gin.Context, repo *repository.Repository) {
 
 	c.IndentedJSON(http.StatusCreated, task)
 }
+
+func DeleteTaskController(c *gin.Context, repo *repository.Repository) {
+	strId := c.Param("id")
+
+	id, err := strconv.Atoi(strId)
+
+	if err != nil {
+		return
+	}
+
+	task := repo.DeleteTask(id)
+	
+	c.IndentedJSON(http.StatusCreated, task)
+}
