@@ -2,19 +2,11 @@ package main
 
 import (
 	"log"
-	"net/http"
 	"todo/controllers"
 	"todo/repository"
 
 	"github.com/gin-gonic/gin"
 )
-
-type MutateTaskType struct {
-	Name        string
-	Description string
-	UserId      string
-	Time        string
-}
 
 func main() {
 	repo, err := repository.GetInstance()
@@ -29,13 +21,7 @@ func main() {
 		controllers.GetTasksController(c, repo)
 	})
 	router.POST("/api/tasks", func(c *gin.Context) {
-		var requestBody MutateTaskType
-
-		if err := c.BindJSON(&requestBody); err != nil {
-			return
-		}
-
-		c.IndentedJSON(http.StatusCreated, requestBody)
+		controllers.PostTaskController(c, repo)
 	})
 	router.Run(port)
 }

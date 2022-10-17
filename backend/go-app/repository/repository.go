@@ -12,6 +12,11 @@ func (self *Repository) GetTasks() []Task {
 	return tasks
 }
 
+func (self *Repository) CreateTask(task Task) Task {
+	self.db.Create(&task)
+	return task
+}
+
 func GetInstance() (*Repository, error) {
 	db, err := GetDb()
 

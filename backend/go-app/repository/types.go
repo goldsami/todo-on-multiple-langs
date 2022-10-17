@@ -1,8 +1,9 @@
 package repository
 
 type Task struct {
-	Name        string
-	Description string
-	UserId      string
-	Time        string
+	Id int `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	UserId      int `json:"user_id"`
+	Time        string `json:"time"`
 }
