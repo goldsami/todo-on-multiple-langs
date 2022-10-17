@@ -17,6 +17,9 @@ func main() {
 
 	port := ":4000"
 	router := gin.Default()
+	router.GET("/api/users", func(c *gin.Context) {
+		controllers.GetUsersController(c, repo)
+	})
 	router.GET("/api/tasks", func(c *gin.Context) {
 		controllers.GetTasksController(c, repo)
 	})

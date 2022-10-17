@@ -6,6 +6,12 @@ type Repository struct {
 	db *gorm.DB
 }
 
+func (self *Repository) GetUsers() []User {
+	var users []User
+	self.db.Find(&users)
+	return users
+}
+
 func (self *Repository) GetTasks() []Task {
 	var tasks []Task
 	self.db.Find(&tasks)
