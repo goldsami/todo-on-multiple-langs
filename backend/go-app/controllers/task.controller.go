@@ -6,7 +6,7 @@ import (
 	"todo/repository"
 )
 
-func GetTasksController(c *gin.Context, repo *repository.Repository)  {
+func GetTasksController(c *gin.Context, repo *repository.Repository) {
 	tasks := repo.GetTasks()
 	c.IndentedJSON(http.StatusOK, tasks)
 }
@@ -22,5 +22,3 @@ func PostTaskController(c *gin.Context, repo *repository.Repository) {
 
 	c.IndentedJSON(http.StatusCreated, task)
 }
-
-
