@@ -30,6 +30,8 @@
     }
   }
 
+  const sortTasks = (tasks: Task[]) => tasks?.sort((a,b) => new Date(b.time) - new Date(a.time))
+
   const queryClient = useQueryClient()
 
   const queryResult = useQuery('tasks', () =>
@@ -74,7 +76,8 @@
     closeModal()
   }
 
-  $: filteredTasks = filterTasks($queryResult?.data?.data, currentTab)
+  let filteredTasks = []
+  $: filteredTasks = sortTasks(filterTasks($queryResult?.data?.data, currentTab))
 </script>
 
 {#if $queryResult.isLoading}
