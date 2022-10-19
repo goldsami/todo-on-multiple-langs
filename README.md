@@ -10,6 +10,7 @@ Same Todo app written on different languages and frameworks.
     - [Next.js](#nextjs)
 - [Backend](#backend)
     - [Node.js](#nodejs)
+    - [Golang](#golang)
 - [Frontend](#frontend)
     - [Svelte](#svelte)
 
@@ -21,6 +22,12 @@ Go to `database` folder and run the following command to run docker container wi
 
 ```
 docker-compose up
+```
+
+First you need to install dependencies:
+
+```
+npm i
 ```
 
 To migrate and seed db run the following:
@@ -44,6 +51,7 @@ Fullstack apps are available on `http://localhost:3000` port.
 To run `Next.js` project go to `fullstack/next-app` folder and execute the following command:
 
 ```
+npm i
 npm run dev
 ```
 
@@ -56,6 +64,16 @@ Backend apps are available on `http://localhost:4000` port.
 To run `Node.js` project go to `backned/node-app` folder and execute the following command:
 
 ```
+npm i
+npm run dev
+```
+
+### Golang
+
+To run `Golang` project go to `backned/go-app` folder and execute the following command:
+
+```
+go get -d ./...
 npm run dev
 ```
 
@@ -68,6 +86,7 @@ Frontend apps are available on `http://localhost:4200` port.
 To run `Svelte` project go to `frontend/svelte-app` folder and execute the following command:
 
 ```
+npm i
 npm run dev
 ```
 
