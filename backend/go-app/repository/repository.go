@@ -14,7 +14,7 @@ func (self *Repository) GetUsers() []User {
 
 func (self *Repository) GetTasks() []Task {
 	var tasks []Task
-	self.db.Model(&Task{}).Preload("User").Find(&tasks)
+	self.db.Model(&Task{}).Preload("User").Where("status != 'deleted'").Find(&tasks)
 	return tasks
 }
 
