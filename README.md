@@ -74,7 +74,7 @@ To run `Golang` project go to `backned/go-app` folder and execute the following 
 
 ```
 go get -d ./...
-npm run dev
+go run main.go
 ```
 
 ## Frontend
