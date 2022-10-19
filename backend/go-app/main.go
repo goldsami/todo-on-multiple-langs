@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/cors"
 	"log"
 	"todo/controllers"
 	"todo/repository"
@@ -17,6 +18,8 @@ func main() {
 
 	port := ":4000"
 	router := gin.Default()
+	router.Use(cors.Default())
+	
 	router.GET("/api/users", func(c *gin.Context) {
 		controllers.GetUsersController(c, repo)
 	})
