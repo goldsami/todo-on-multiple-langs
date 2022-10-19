@@ -12,10 +12,9 @@ func (self *Repository) GetUsers() []User {
 	return users
 }
 
-// TODO: filter deleted and get user
 func (self *Repository) GetTasks() []Task {
 	var tasks []Task
-	self.db.Find(&tasks)
+	self.db.Model(&Task{}).Preload("User").Find(&tasks)
 	return tasks
 }
 

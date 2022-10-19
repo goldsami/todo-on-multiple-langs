@@ -1,6 +1,8 @@
 package repository
 
-import "time"
+import (
+	"time"
+)
 
 type Task struct {
 	Id          int    `json:"id"`
@@ -8,6 +10,7 @@ type Task struct {
 	Description *string `json:"description"`
 	Status string `json:"status"`
 	UserId      *int    `json:"user_id"`
+	User *User `json:"user"`
 	Time        *time.Time `json:"time"`
 }
 
