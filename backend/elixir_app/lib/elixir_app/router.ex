@@ -22,6 +22,7 @@ defmodule ElixirApp.Router do
 
   # Handler for GET request with "/" path
   get "/" do
+    res = Postgrex.query!(:postgrex, "SELECT * FROM users", [])
     send_resp(conn, 200, "OK")
   end
 

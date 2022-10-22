@@ -23,7 +23,8 @@ defmodule ElixirApp.MixProject do
   defp deps do
     [
       {:plug_cowboy, "~> 2.5"},
-      {:jason, "~> 1.3"}
+      {:jason, "~> 1.3"},
+      {:postgrex, "~> 0.16.5"}
     ]
   end
 end
