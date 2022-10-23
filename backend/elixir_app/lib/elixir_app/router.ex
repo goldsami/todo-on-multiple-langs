@@ -23,7 +23,14 @@ defmodule ElixirApp.Router do
   # Handler for GET request with "/" path
   get "/" do
     res = Postgrex.query!(:postgrex, "SELECT * FROM users", [])
-    send_resp(conn, 200, "OK")
+
+    users = res.rows
+      |> Enum.to_list()
+      |> Jason.encode!()
+
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, users)
   end
 
   # Fallback handler when there was no match
