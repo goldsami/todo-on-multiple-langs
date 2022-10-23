@@ -21,7 +21,7 @@ defmodule ElixirApp.Router do
   plug(:dispatch)
 
   # Handler for GET request with "/" path
-  get "/" do
+  get "/api/users" do
     res = Postgrex.query!(:postgrex, "SELECT * FROM users", [])
 
     users = res.rows
@@ -31,6 +31,16 @@ defmodule ElixirApp.Router do
     conn
     |> put_resp_content_type("application/json")
     |> send_resp(200, users)
+  end
+
+  post "/api/tasks" do
+    {status, body} =
+      case conn.body_params do
+        %{"name" => nm} -> {200, nm}
+        _ -> {422, "err"}
+      end
+
+    send_resp(conn, status, body)
   end
 
   # Fallback handler when there was no match
