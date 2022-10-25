@@ -33,6 +33,23 @@ defmodule ElixirApp.Router do
     |> send_resp(200, users)
   end
 
+  get "/api/tasks" do
+    res = Postgrex.query!(:postgrex, """
+      SELECT "task".*, json_build_object('id', "user"."id", 'image_url' ,"user"."image_url") as "user" FROM "tasks" as "task"
+        LEFT JOIN "users" as "user" on "user"."id" = "task"."user_id"
+        WHERE "task"."status" != 'deleted'
+        GROUP BY "task"."id", "user"."id"
+    """, [])
+
+    tasks = res.rows
+            |> Enum.to_list()
+            |> Jason.encode!()
+
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, tasks)
+  end
+
   post "/api/tasks" do
     {status, body} =
       case conn.body_params do
