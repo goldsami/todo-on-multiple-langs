@@ -20,7 +20,10 @@ defmodule ElixirApp.Router do
   # Dispatch the connection to the matched handler
   plug(:dispatch)
 
-  # Handler for GET request with "/" path
+  def map_entity(headers, entity) do
+    Map.new(headers, fn {name, index} -> {name, Enum.at(entity, index)} end)
+  end
+
   get "/api/users" do
     res = Postgrex.query!(:postgrex, "SELECT * FROM users", [])
 
@@ -41,9 +44,12 @@ defmodule ElixirApp.Router do
         GROUP BY "task"."id", "user"."id"
     """, [])
 
+    headers = res.columns |> Enum.with_index
+
     tasks = res.rows
-            |> Enum.to_list()
-            |> Jason.encode!()
+      |> Enum.to_list()
+      |> Enum.map(fn task -> map_entity(headers, task) end)
+      |> Jason.encode!()
 
     conn
     |> put_resp_content_type("application/json")
