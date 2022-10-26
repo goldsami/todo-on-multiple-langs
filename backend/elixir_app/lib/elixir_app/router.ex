@@ -20,16 +20,9 @@ defmodule ElixirApp.Router do
   # Dispatch the connection to the matched handler
   plug(:dispatch)
 
-  def map_entity(headers, entity) do
-    Map.new(headers, fn {name, index} -> {name, Enum.at(entity, index)} end)
-  end
-
   get "/api/users" do
-    res = Postgrex.query!(:postgrex, "SELECT * FROM users", [])
-
-    users = res.rows
-      |> Enum.to_list()
-      |> Jason.encode!()
+    users = Postgrex.query!(:postgrex, "SELECT * FROM users", [])
+      |> ElixirApp.Helper.postgrex_res_to_json()
 
     conn
     |> put_resp_content_type("application/json")
@@ -37,19 +30,12 @@ defmodule ElixirApp.Router do
   end
 
   get "/api/tasks" do
-    res = Postgrex.query!(:postgrex, """
+    tasks = Postgrex.query!(:postgrex, """
       SELECT "task".*, json_build_object('id', "user"."id", 'image_url' ,"user"."image_url") as "user" FROM "tasks" as "task"
         LEFT JOIN "users" as "user" on "user"."id" = "task"."user_id"
         WHERE "task"."status" != 'deleted'
         GROUP BY "task"."id", "user"."id"
-    """, [])
-
-    headers = res.columns |> Enum.with_index
-
-    tasks = res.rows
-      |> Enum.to_list()
-      |> Enum.map(fn task -> map_entity(headers, task) end)
-      |> Jason.encode!()
+    """, []) |> ElixirApp.Helper.postgrex_res_to_json()
 
     conn
     |> put_resp_content_type("application/json")
