@@ -21,8 +21,7 @@ defmodule ElixirApp.Router do
   plug(:dispatch)
 
   get "/api/users" do
-    users = Postgrex.query!(:postgrex, "SELECT * FROM users", [])
-      |> ElixirApp.Helper.postgrex_res_to_json()
+    users = ElixirApp.Repository.get_users()
 
     conn
     |> put_resp_content_type("application/json")
@@ -30,12 +29,7 @@ defmodule ElixirApp.Router do
   end
 
   get "/api/tasks" do
-    tasks = Postgrex.query!(:postgrex, """
-      SELECT "task".*, json_build_object('id', "user"."id", 'image_url' ,"user"."image_url") as "user" FROM "tasks" as "task"
-        LEFT JOIN "users" as "user" on "user"."id" = "task"."user_id"
-        WHERE "task"."status" != 'deleted'
-        GROUP BY "task"."id", "user"."id"
-    """, []) |> ElixirApp.Helper.postgrex_res_to_json()
+    tasks = ElixirApp.Repository.get_tasks()
 
     conn
     |> put_resp_content_type("application/json")
