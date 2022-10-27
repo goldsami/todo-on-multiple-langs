@@ -56,8 +56,14 @@ defmodule ElixirApp.Router do
 
     {status, body} =
       case conn.body_params do
-        %{"name" => name, "description" => description, "time" => time, "user_id" => user_id} ->
-          {200, ElixirApp.Repository.update_task(id, {name, description, time, user_id})}
+        %{
+          "name" => name,
+          "description" => description,
+          "time" => time,
+          "user_id" => user_id,
+          "status" => status
+        } ->
+          {200, ElixirApp.Repository.update_task(id, {name, description, time, user_id, status})}
 
         _ ->
           {422, "err"}
