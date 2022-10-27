@@ -1,7 +1,8 @@
 defmodule ElixirApp.Repository do
   def get_users() do
     Postgrex.query!(:postgrex, "SELECT * FROM users", [])
-    |> ElixirApp.Helper.postgrex_res_to_json()
+    |> ElixirApp.Helper.parse_postgrex_res()
+    |> Jason.encode!()
   end
 
   def get_tasks() do
@@ -15,6 +16,23 @@ defmodule ElixirApp.Repository do
       """,
       []
     )
-    |> ElixirApp.Helper.postgrex_res_to_json()
+    |> ElixirApp.Helper.parse_postgrex_res()
+    |> Jason.encode!()
+  end
+
+  def create_task({name, description, time, user_id}) do
+    {_, time, _} = DateTime.from_iso8601(time)
+
+    [value | _] =
+      Postgrex.query!(
+        :postgrex,
+        """
+          INSERT INTO tasks (name, description, time, user_id) VALUES ($1, $2, $3, $4) RETURNING *
+        """,
+        [name, description, time, user_id]
+      )
+      |> ElixirApp.Helper.parse_postgrex_res()
+
+    Jason.encode!(value)
   end
 end

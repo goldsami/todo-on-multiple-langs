@@ -39,8 +39,11 @@ defmodule ElixirApp.Router do
   post "/api/tasks" do
     {status, body} =
       case conn.body_params do
-        %{"name" => nm} -> {200, nm}
-        _ -> {422, "err"}
+        %{"name" => name, "description" => description, "time" => time, "user_id" => user_id} ->
+          {200, ElixirApp.Repository.create_task({name, description, time, user_id})}
+
+        _ ->
+          {422, "err"}
       end
 
     send_resp(conn, status, body)

@@ -1,11 +1,10 @@
 defmodule ElixirApp.Helper do
-  def postgrex_res_to_json(data) do
-    headers = data.columns |> Enum.with_index
+  def parse_postgrex_res(data) do
+    headers = data.columns |> Enum.with_index()
 
     data.rows
-      |> Enum.to_list()
-      |> Enum.map(fn task -> map_entity(headers, task) end)
-      |> Jason.encode!()
+    |> Enum.to_list()
+    |> Enum.map(fn task -> map_entity(headers, task) end)
   end
 
   defp map_entity(headers, entity) do
