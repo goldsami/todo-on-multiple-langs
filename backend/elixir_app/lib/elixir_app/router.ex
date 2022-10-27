@@ -72,6 +72,14 @@ defmodule ElixirApp.Router do
     send_resp(conn, status, body)
   end
 
+  delete "/api/tasks/:id" do
+    {id, _} = Integer.parse(id)
+
+    {status, body} = {200, ElixirApp.Repository.delete_task(id)}
+
+    send_resp(conn, status, body)
+  end
+
   # Fallback handler when there was no match
   match _ do
     send_resp(conn, 404, "Not Found")

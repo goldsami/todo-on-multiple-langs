@@ -51,6 +51,15 @@ defmodule ElixirApp.Repository do
 
     Jason.encode!(value)
   end
+
+  def delete_task(id) do
+    [value | _] =
+      Postgrex.query!(
+        :postgrex,
+        """
+          UPDATE tasks SET status = 'deleted' WHERE id = $1 RETURNING *
+        """,
+        [id]
       )
       |> ElixirApp.Helper.parse_postgrex_res()
 
