@@ -35,4 +35,20 @@ defmodule ElixirApp.Repository do
 
     Jason.encode!(value)
   end
+
+  def update_task(id, {name, description, time, user_id}) do
+    {_, time, _} = DateTime.from_iso8601(time)
+
+    [value | _] =
+      Postgrex.query!(
+        :postgrex,
+        """
+          UPDATE tasks SET name = $1, description = $2, time = $3, user_id = $4 WHERE id = $5 RETURNING *
+        """,
+        [name, description, time, user_id, id]
+      )
+      |> ElixirApp.Helper.parse_postgrex_res()
+
+    Jason.encode!(value)
+  end
 end

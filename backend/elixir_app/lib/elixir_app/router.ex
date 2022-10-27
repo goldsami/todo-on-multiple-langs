@@ -49,6 +49,21 @@ defmodule ElixirApp.Router do
     send_resp(conn, status, body)
   end
 
+  put "/api/tasks/:id" do
+    {id, _} = Integer.parse(id)
+
+    {status, body} =
+      case conn.body_params do
+        %{"name" => name, "description" => description, "time" => time, "user_id" => user_id} ->
+          {200, ElixirApp.Repository.update_task(id, {name, description, time, user_id})}
+
+        _ ->
+          {422, "err"}
+      end
+
+    send_resp(conn, status, body)
+  end
+
   # Fallback handler when there was no match
   match _ do
     send_resp(conn, 404, "Not Found")
