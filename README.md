@@ -61,7 +61,7 @@ Backend apps are available on `http://localhost:4000` port.
 
 ### Node.js
 
-To run `Node.js` project go to `backned/node-app` folder and execute the following command:
+To run `Node.js` project go to `backend/node-app` folder and execute the following command:
 
 ```
 npm i
@@ -70,11 +70,20 @@ npm run dev
 
 ### Golang
 
-To run `Golang` project go to `backned/go-app` folder and execute the following command:
+To run `Golang` project go to `backend/go-app` folder and execute the following command:
 
 ```
 go get -d ./...
 go run main.go
+```
+
+### Elixir
+
+To run `Elixir` project go to `backend/elixir_app` folder and execute the following command:
+
+```
+mix deps.get
+iex -S mix run
 ```
 
 ## Frontend
