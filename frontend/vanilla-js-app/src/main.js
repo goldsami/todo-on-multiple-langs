@@ -14,7 +14,17 @@ const navbarProps = {
   ]
 }
 
+const pages = [
+  {
+    path: '/',
+    element: `
+      <h1>Home Page</h1>
+      <task-card title="test task"></task-card>
+    `
+  }
+]
+
 document.querySelector('#app').innerHTML = `
-    <my-navbar title='${JSON.stringify(navbarProps.title)}' links='${JSON.stringify(navbarProps.links)}'></my-navbar>
-    <task-card title="test task"></task-card>
+    <cc-navbar title='${JSON.stringify(navbarProps.title)}' links='${JSON.stringify(navbarProps.links)}'></cc-navbar>
+    <cc-router pages='${JSON.stringify(pages)}'></cc-router>
 `
