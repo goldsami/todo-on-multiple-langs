@@ -21,7 +21,19 @@ const pages = [
       <h1>Home Page</h1>
       <task-card title="test task"></task-card>
     `
-  }
+  },
+  {
+    path: 'tasks',
+    element: `
+      <h1>Tasks Page</h1>
+    `
+  },
+  {
+    path: 'people',
+    element: `
+      <h1>People Page</h1>
+    `
+  },
 ]
 
 document.querySelector('#app').innerHTML = `
