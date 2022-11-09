@@ -6,11 +6,11 @@ import 'materialize-css/dist/js/materialize.min'
 const navbarProps = {
   title: {
     name: 'TODO',
-    url: '/'
+    url: ''
   },
   links: [
-    {name: 'Tasks', url: '/tasks'},
-    {name: 'Users', url: '/users'},
+    {name: 'Tasks', url: 'tasks'},
+    {name: 'Users', url: 'users'},
   ]
 }
 

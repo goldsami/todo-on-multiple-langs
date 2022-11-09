@@ -5,8 +5,10 @@
       element: string,
     }[]
  */
-class Router extends HTMLElement {
+export class Router extends HTMLElement {
   rendered = false
+
+  static currentTab = 'tasks'
 
   connectedCallback() {
     // console.log('init')
