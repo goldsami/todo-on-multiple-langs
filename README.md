@@ -11,6 +11,7 @@ Same Todo app written on different languages and frameworks.
 - [Backend](#backend)
     - [Node.js](#nodejs)
     - [Golang](#golang)
+    - [Elixir](#elixir)
 - [Frontend](#frontend)
     - [Svelte](#svelte)
 
