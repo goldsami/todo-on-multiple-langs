@@ -30,7 +30,7 @@ class RouterLink extends HTMLElement {
 
   getTemplate() {
     return `
-      <a class="${this.className}" href="/${this.path}">${this.name}</a>
+      <a class="router-link ${this.className}" href="/${this.path}">${this.name}</a>
     `
   }
 

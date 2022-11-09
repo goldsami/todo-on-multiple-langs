@@ -29,7 +29,7 @@ const pages = [
     `
   },
   {
-    path: 'people',
+    path: 'users',
     element: `
       <h1>People Page</h1>
     `

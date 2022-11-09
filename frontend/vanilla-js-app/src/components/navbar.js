@@ -39,7 +39,7 @@ class Navbar extends HTMLElement {
             <cc-router-link path="${title.url}" name="${title.name}" className="brand-logo"></cc-router-link>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               ${links.map(x => (`
-                <li class="${Router.currentTab === x.url ? 'active' : x.url}">
+                <li>
                   <cc-router-link path="${x.url}" name="${x.name}"></cc-router-link>
                 </li>
               `)).join('')}
