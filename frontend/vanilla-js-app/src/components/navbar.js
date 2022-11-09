@@ -11,7 +11,7 @@ const defaultItem = {
 class Navbar extends HTMLElement {
   rendered = false
 
-  connectCallback() {
+  connectedCallback() {
     if (!this.rendered) {
       this.render()
       this.rendered = true
