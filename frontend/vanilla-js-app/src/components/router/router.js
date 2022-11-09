@@ -10,8 +10,7 @@ export class Router extends HTMLElement {
 
   connectedCallback() {
     if (!this.rendered) {
-      this.render()
-      this.highlightLink(this.getInitialTab())
+      this.render(this.getInitialTab())
       this.rendered = true
     }
   }
@@ -32,23 +31,24 @@ export class Router extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    this.render();
+    this.render(this.getInitialTab());
     this.bindOnClickEvents()
   }
 
-  render() {
-    this.innerHTML = this.getTemplate()
+  render(id) {
+    this.innerHTML = this.getTemplate(id)
+    this.highlightLink(id)
   }
 
-  getTemplate() {
-    return this.pages[0].element
+  getTemplate(id) {
+    return this.pages.find(x => x.path === id).element
   }
 
   linkClickEventHandler(event, el) {
     event.preventDefault()
     const target = el.getAttribute('href').slice(1)
     this.pushState(target)
-    this.highlightLink(target)
+    this.render(target)
   }
 
   pushState(id) {
