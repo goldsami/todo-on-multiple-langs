@@ -8,7 +8,10 @@
 class Router extends HTMLElement {
   rendered = false
 
-  connectCallback() {
+  connectedCallback() {
+    // console.log('init')
+    // window.addEventListener("popstate", event => console.log({event}))
+    // window.addEventListener("cev", event => console.log('cev', {event: event}))
     if (!this.rendered) {
       this.render()
       this.rendered = true

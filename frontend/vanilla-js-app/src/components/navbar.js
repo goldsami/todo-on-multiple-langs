@@ -34,10 +34,10 @@ class Navbar extends HTMLElement {
     return `
         <nav>
           <div class="nav-wrapper">
-            <a href="${title.url}" class="brand-logo">${title.name}</a>
+            <cc-router-link path="${title.url}" name="${title.name}" className="brand-logo"></cc-router-link>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               ${links.map(x => (
-                `<li><a href="${x.url}">${x.name}</a></li>`
+                `<li><cc-router-link path="${x.url}" name="${x.name}"></cc-router-link></li>`
               )).join('')}
             </ul>
           </div>

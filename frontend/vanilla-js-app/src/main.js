@@ -16,7 +16,7 @@ const navbarProps = {
 
 const pages = [
   {
-    path: '/',
+    path: '',
     element: `
       <h1>Home Page</h1>
       <task-card title="test task"></task-card>
