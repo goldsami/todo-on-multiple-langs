@@ -23,7 +23,7 @@ const pages = [
   {
     path: 'tasks',
     element: `
-      <h1>Tasks Page</h1>
+      <cc-tasks-page></cc-tasks-page>
     `
   },
   {
