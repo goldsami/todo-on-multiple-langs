@@ -2,7 +2,8 @@
   Props:
     pages: {
       path: string,
-      element: string,
+      element?: string,
+      redirectPath?: string
     }[]
  */
 export class Router extends HTMLElement {
@@ -25,9 +26,14 @@ export class Router extends HTMLElement {
 
   getInitialTab() {
     const initialPath = window.location.pathname.slice(1)
-    return this.pages.find(x => x.path === initialPath)
-      ? initialPath
-      : this.pages[0].path
+    const page = this.pages.find(x => x.path === initialPath) || this.pages[0]
+
+    if (page.redirectPath) {
+      this.pushState(page.redirectPath)
+      return page.redirectPath
+    }
+
+    return page.path
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -46,7 +52,9 @@ export class Router extends HTMLElement {
 
   linkClickEventHandler(event, el) {
     event.preventDefault()
-    const target = el.getAttribute('href').slice(1)
+    const eventHref = el.getAttribute('href').slice(1)
+    const targetPage = this.pages.find(x => x.path === eventHref)
+    const target = targetPage.redirectPath || targetPage.path
     this.pushState(target)
     this.render(target)
   }

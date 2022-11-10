@@ -17,10 +17,7 @@ const navbarProps = {
 const pages = [
   {
     path: '',
-    element: `
-      <h1>Home Page</h1>
-      <task-card title="test task"></task-card>
-    `
+    redirectPath: 'tasks'
   },
   {
     path: 'tasks',
