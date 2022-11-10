@@ -37,4 +37,4 @@ class TaskCard extends HTMLElement {
   }
 }
 
-customElements.define('task-card', TaskCard)
+customElements.define('cc-task-card', TaskCard)

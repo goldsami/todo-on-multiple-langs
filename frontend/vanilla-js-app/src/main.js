@@ -1,5 +1,6 @@
 import '../style.css'
-import './components/index.js'
+import './components'
+import './pages'
 import 'materialize-css/dist/css/materialize.min.css'
 import 'materialize-css/dist/js/materialize.min'
 
@@ -28,7 +29,7 @@ const pages = [
   {
     path: 'users',
     element: `
-      <h1>People Page</h1>
+      <cc-users-page></cc-users-page>
     `
   },
 ]
