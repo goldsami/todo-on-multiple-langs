@@ -35,7 +35,7 @@ class Navbar extends HTMLElement {
   getTemplate(title = defaultItem, links = []) {
     return `
         <nav>
-          <div class="nav-wrapper">
+          <div class="nav-wrapper" style="margin-left: 20px">
             <cc-router-link path="${title.url}" name="${title.name}" className="brand-logo"></cc-router-link>
             <ul id="nav-mobile" class="right hide-on-med-and-down">
               ${links.map(x => (`
