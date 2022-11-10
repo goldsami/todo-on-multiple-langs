@@ -30,11 +30,18 @@ class UsersPage extends HTMLElement {
   }
 
   getTemplate(isLoading, users = []) {
+    console.log({users})
     return isLoading
       ? 'Loading...'
       : `
-        <div>
-            ${users.map(x => (`<h5>${x.name}</h5>`)).join('')}
+        <div class="row">
+            ${users.map(x => (`
+                <cc-user-card 
+                    name="${x.name}" 
+                    imageUrl="${x.image_url}" 
+                    description="${x.description}"
+                ></cc-user-card>
+            `)).join('')}
         </div>
       `
   }
