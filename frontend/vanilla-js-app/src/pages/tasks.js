@@ -43,7 +43,11 @@ class TasksPage extends HTMLElement {
     return isLoading
       ? 'Loading...'
       : `
-        ${tasks.map(x => (`<div>${x.name}</div>`)).join('')}
+        <div class="row">
+          ${tasks.map(x => (`
+            <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
+          `)).join('')}
+        </div>
       `
   }
 }

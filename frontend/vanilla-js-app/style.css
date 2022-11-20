@@ -4,9 +4,18 @@
 }
 
 .task-card {
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    margin: 10px;
-    padding: 10px;
-    width: 100px;
+    margin: auto !important;
+    float: none !important;
+}
+
+.task-card .task-owner-image {
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: -6px;
+}
+
+.task-card i, .task-card .task-name {
+    cursor: pointer;
 }

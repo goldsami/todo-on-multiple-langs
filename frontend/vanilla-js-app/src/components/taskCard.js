@@ -1,6 +1,9 @@
 /*
   Props:
-    title: string
+    task: {
+      name: string
+      description: string
+    }
  */
 class TaskCard extends HTMLElement {
   rendered = false
@@ -13,7 +16,7 @@ class TaskCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['title'];
+    return ['task'];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -21,19 +24,34 @@ class TaskCard extends HTMLElement {
   }
 
   render() {
-    this.innerHTML = this.getTemplate(this.title)
+    this.innerHTML = this.getTemplate(this.task)
   }
 
-  getTemplate(title = '') {
+  getTemplate({name, description, time, user}) {
     return `
-        <div class="task-card">
-            ${title}
+      <div class="col s12 m7 task-card">
+        <div class="card">           
+          <div class="card-content">
+            <span class="card-title">
+                ${user.image_url && `<img
+                    class="task-owner-image"
+                    src="${user.image_url}" />
+                `}
+                <span class="task-name">${name}</span>               
+                <i class="material-icons right">close</i>
+            </span>
+            <p>${description}</p>
+            <span>${new Date(time).toLocaleDateString()}</span>
+          </div>
         </div>
+      </div>
     `
   }
 
-  get title() {
-    return this.getAttribute('title') || ''
+  get task() {
+    return this.getAttribute('task')
+      ? JSON.parse(this.getAttribute('task'))
+      : null
   }
 }
 
