@@ -30,7 +30,6 @@ class UsersPage extends HTMLElement {
   }
 
   getTemplate(isLoading, users = []) {
-    console.log({users})
     return isLoading
       ? 'Loading...'
       : `
