@@ -15,6 +15,9 @@ class TaskCard extends HTMLElement {
     }
   }
 
+  disconnectedCallback() {
+  }
+
   static get observedAttributes() {
     return ['task'];
   }
@@ -25,11 +28,12 @@ class TaskCard extends HTMLElement {
 
   render() {
     this.innerHTML = this.getTemplate(this.task)
+    this.addEventListeners()
   }
 
-  getTemplate({name, description, time, user}) {
+  getTemplate({id, name, description, time, user}) {
     return `
-      <div class="col s12 m7 task-card">
+      <div id="task-${id}" class="col s12 m7 task-card">
         <div class="card">           
           <div class="card-content">
             <span class="card-title">
@@ -38,7 +42,7 @@ class TaskCard extends HTMLElement {
                     src="${user.image_url}" />
                 `}
                 <span class="task-name">${name}</span>               
-                <i class="material-icons right">close</i>
+                <i class="material-icons right delete-button">close</i>
             </span>
             <p>${description}</p>
             <span>${new Date(time).toLocaleDateString()}</span>
@@ -48,10 +52,26 @@ class TaskCard extends HTMLElement {
     `
   }
 
+  addEventListeners() {
+    this.selfElement
+      ?.querySelector('.delete-button')
+      ?.addEventListener('click', () => this.deleteTask(this.task?.id))
+  }
+
+  get selfElement() {
+    return document.getElementById('task-' + this.task?.id)
+  }
+
   get task() {
     return this.getAttribute('task')
       ? JSON.parse(this.getAttribute('task'))
       : null
+  }
+
+  deleteTask(id) {
+    document.dispatchEvent(new CustomEvent('delete-task', {
+      detail: {id}
+    }))
   }
 }
 

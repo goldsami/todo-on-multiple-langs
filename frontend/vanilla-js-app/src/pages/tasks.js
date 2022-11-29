@@ -11,6 +11,10 @@ class TasksPage extends HTMLElement {
     }
   }
 
+  disconnectedCallback() {
+    document.removeEventListener('delete-task', this.deleteTaskEventHandler)
+  }
+
   async loadTasks() {
     const {data} = await tasksService.getTasks()
     return data
@@ -32,18 +36,26 @@ class TasksPage extends HTMLElement {
     const tasks = await this.loadTasks()
     const filteredTasks = this.filterTasks(tasks, this.currentTab)
     this.renderTasks(tasks)
+    this.addEventListeners()
   }
 
   async renderTasks(tasks) {
     this.innerHTML = this.getTemplate(false, tasks)
   }
 
+  addEventListeners() {
+    document.addEventListener('delete-task', this.deleteTaskEventHandler)
+  }
+
+  deleteTaskEventHandler({detail}) {
+    console.log('delete task event', detail.id)
+  }
+
   getTemplate(isLoading, tasks = []) {
-    console.log({tasks})
     return isLoading
       ? 'Loading...'
       : `
-        <div class="row">
+        <div id="tasksPage" class="row">
           ${tasks.map(x => (`
             <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
           `)).join('')}
