@@ -34,6 +34,7 @@ class TasksPage extends HTMLElement {
   async render() {
     this.disconnectedCallback()
     this.innerHTML = this.getTemplate(true)
+    this.initModal()
     const tasks = await this.loadTasks()
     const filteredTasks = this.filterTasks(tasks, this.currentTab)
     this.renderTasks(tasks)
@@ -42,6 +43,13 @@ class TasksPage extends HTMLElement {
 
   async renderTasks(tasks) {
     this.innerHTML = this.getTemplate(false, tasks)
+    this.initModal()
+  }
+
+  initModal() {
+    const modals = document.querySelectorAll('.modal');
+    if (!modals.length) return
+    const instances = M.Modal.init(modals);
   }
 
   addEventListeners() {
@@ -61,6 +69,20 @@ class TasksPage extends HTMLElement {
           ${tasks.map(x => (`
             <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
           `)).join('')}
+        </div>
+        
+        <!-- Modal Trigger -->
+        <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+      
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+          <div class="modal-content">
+            <h4>Create Task</h4>
+            <p>A bunch of text</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Submit</a>
+          </div>
         </div>
       `
   }
