@@ -37,10 +37,12 @@ class TaskCard extends HTMLElement {
         <div class="card">           
           <div class="card-content">
             <span class="card-title">
-                ${user.image_url && `<img
+                ${user.image_url 
+                  ? `<img
                     class="task-owner-image"
-                    src="${user.image_url}" />
-                `}
+                    src="${user.image_url}" />`
+                  : ''
+                }
                 <span class="task-name">${name}</span>               
                 <i class="material-icons right delete-button">close</i>
             </span>

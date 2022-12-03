@@ -32,6 +32,7 @@ class TasksPage extends HTMLElement {
   };
 
   async render() {
+    this.disconnectedCallback()
     this.innerHTML = this.getTemplate(true)
     const tasks = await this.loadTasks()
     const filteredTasks = this.filterTasks(tasks, this.currentTab)
@@ -44,11 +45,12 @@ class TasksPage extends HTMLElement {
   }
 
   addEventListeners() {
-    document.addEventListener('delete-task', this.deleteTaskEventHandler)
+    document.addEventListener('delete-task', this.deleteTaskEventHandler.bind(this))
   }
 
-  deleteTaskEventHandler({detail}) {
-    console.log('delete task event', detail.id)
+  async deleteTaskEventHandler({detail}) {
+    await tasksService.deleteTask(detail.id)
+    this.render()
   }
 
   getTemplate(isLoading, tasks = []) {
