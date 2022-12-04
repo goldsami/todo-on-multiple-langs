@@ -1,4 +1,5 @@
 import './router'
-import './taskCard.js'
-import './navbar.js'
-import './userCard.js'
+import './taskCard'
+import './navbar'
+import './userCard'
+import './mutateTaskModal'

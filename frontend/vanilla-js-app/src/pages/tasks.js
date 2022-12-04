@@ -65,25 +65,14 @@ class TasksPage extends HTMLElement {
     return isLoading
       ? 'Loading...'
       : `
-        <div id="tasksPage" class="row">
+        <div id="tasksPage" class="row">        
+          <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Create Task</a>
           ${tasks.map(x => (`
             <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
           `)).join('')}
         </div>
-        
-        <!-- Modal Trigger -->
-        <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
       
-        <!-- Modal Structure -->
-        <div id="modal1" class="modal">
-          <div class="modal-content">
-            <h4>Create Task</h4>
-            <p>A bunch of text</p>
-          </div>
-          <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Submit</a>
-          </div>
-        </div>
+        <cc-mutate-task-modal isCreateModal="true"></cc-mutate-task-modal>
       `
   }
 }
