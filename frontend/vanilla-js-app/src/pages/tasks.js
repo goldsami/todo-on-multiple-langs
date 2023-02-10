@@ -1,13 +1,21 @@
-import {tasksService} from "../services";
+import { tasksService } from "../services";
 
 class TasksPage extends HTMLElement {
-  rendered = false
-  currentTab = 'all'
+  #rendered = false
+  #currentTab = 'all'
+  #tasks = []
+  // #mutatedTask = null
+
+  // set mutatedTask(val) {
+  //   this.#mutatedTask = val
+  //   document.querySelector('#mutateTask').setAttribute('isCreateModal', 'false')
+  //   console.log({ el: document.querySelector('#mutateTask') })
+  // }
 
   connectedCallback() {
-    if (!this.rendered) {
+    if (!this.#rendered) {
       this.render()
-      this.rendered = true
+      this.#rendered = true
     }
   }
 
@@ -16,7 +24,7 @@ class TasksPage extends HTMLElement {
   }
 
   async loadTasks() {
-    const {data} = await tasksService.getTasks()
+    const { data } = await tasksService.getTasks()
     return data
   }
 
@@ -35,9 +43,9 @@ class TasksPage extends HTMLElement {
     this.disconnectedCallback()
     this.innerHTML = this.getTemplate(true)
     this.initModal()
-    const tasks = await this.loadTasks()
-    const filteredTasks = this.filterTasks(tasks, this.currentTab)
-    this.renderTasks(tasks)
+    this.#tasks = await this.loadTasks()
+    const filteredTasks = this.filterTasks(this.#tasks, this.#currentTab)
+    this.renderTasks(this.#tasks)
     this.addEventListeners()
   }
 
@@ -54,11 +62,20 @@ class TasksPage extends HTMLElement {
 
   addEventListeners() {
     document.addEventListener('delete-task', this.deleteTaskEventHandler.bind(this))
+    document.querySelectorAll('.task-wrapper')
+      .forEach(el => el.addEventListener('click', () => this.taskClickEventHandler(el.id)))
+    document.querySelector('.create-task-button')?.addEventListener('click', () => console.log('create task'))
   }
 
-  async deleteTaskEventHandler({detail}) {
+  async deleteTaskEventHandler({ detail }) {
     await tasksService.deleteTask(detail.id)
     this.render()
+  }
+
+  async taskClickEventHandler(id) {
+    // this.mutatedTask = this.#tasks.find(x => x.id == id)
+    console.log('mutate');
+    // setTimeout(() => document.querySelector('#updateTask')?.setAttribute('test', 'nice'), 5000)
   }
 
   getTemplate(isLoading, tasks = []) {
@@ -66,13 +83,16 @@ class TasksPage extends HTMLElement {
       ? 'Loading...'
       : `
         <div id="tasksPage" class="row">        
-          <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Create Task</a>
+          <a class="waves-effect waves-light btn modal-trigger create-task-button" href="#createTaskModal">Create Task</a>
           ${tasks.map(x => (`
-            <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
+            <div id="${x.id}" class="modal-trigger task-wrapper" href="#updateTaskModal">
+                <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
+            </div>
           `)).join('')}
         </div>
       
-        <cc-mutate-task-modal isCreateModal="true"></cc-mutate-task-modal>
+        <cc-create-task-modal id="createTask"></cc-create-task-modal>
+        <cc-update-task-modal id="updateTask" test="test1"></cc-update-task-modal>
       `
   }
 }

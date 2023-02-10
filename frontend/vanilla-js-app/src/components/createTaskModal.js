@@ -1,4 +1,4 @@
-class MutateTaskModal extends HTMLElement {
+class CreateTaskModal extends HTMLElement {
   rendered = false
 
   connectedCallback() {
@@ -9,7 +9,7 @@ class MutateTaskModal extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['isCreateModal'];
+    return [];
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
@@ -17,14 +17,14 @@ class MutateTaskModal extends HTMLElement {
   }
 
   render() {
-    this.innerHTML = this.getTemplate(this.isCreateModal)
+    this.innerHTML = this.getTemplate()
   }
 
-  getTemplate(isCreateModal) {
+  getTemplate() {
     return `
-      <div id="modal1" class="modal">
+      <div id="createTaskModal" class="modal">
         <div class="modal-content">
-          <h4>${isCreateModal ? 'Create' : 'Update'} Task</h4>
+          <h4>Create Task</h4>
           <p>A bunch of text</p>
         </div>
         <div class="modal-footer">
@@ -33,10 +33,6 @@ class MutateTaskModal extends HTMLElement {
       </div>
     `
   }
-
-  get isCreateModal() {
-    return this.getAttribute('isCreateModal') || false
-  }
 }
 
-customElements.define('cc-mutate-task-modal', MutateTaskModal)
+customElements.define('cc-create-task-modal', CreateTaskModal)
