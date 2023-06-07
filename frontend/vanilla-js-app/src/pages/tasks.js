@@ -1,4 +1,4 @@
-import { tasksService } from "../services";
+import { tasksService, usersService } from "../services";
 
 class TasksPage extends HTMLElement {
   #rendered = false
@@ -64,7 +64,7 @@ class TasksPage extends HTMLElement {
     document.addEventListener('delete-task', this.deleteTaskEventHandler.bind(this))
     document.querySelectorAll('.task-wrapper')
       .forEach(el => el.addEventListener('click', () => this.taskClickEventHandler(el.id)))
-    document.querySelector('.create-task-button')?.addEventListener('click', () => console.log('create task'))
+    document.querySelector('.create-task-button')?.addEventListener('click', () => this.openMutateTaskModal())
   }
 
   async deleteTaskEventHandler({ detail }) {
@@ -72,10 +72,59 @@ class TasksPage extends HTMLElement {
     this.render()
   }
 
-  async taskClickEventHandler(id) {
-    // this.mutatedTask = this.#tasks.find(x => x.id == id)
-    console.log('mutate');
-    // setTimeout(() => document.querySelector('#updateTask')?.setAttribute('test', 'nice'), 5000)
+  taskClickEventHandler(id) {
+    const task = this.#tasks.find(x => x.id == id)
+    this.openMutateTaskModal(task)
+  }
+
+  openMutateTaskModal(task) {
+    const modal = document.getElementById("task-modal");
+    const modalName = document.getElementById("modal-name");
+    const overlay = document.querySelector(".overlay");
+    const form = document.getElementById("task-form");
+    const nameInput = document.getElementById("task-name");
+    const descriptionInput = document.getElementById("task-description");
+    const timeInput = document.getElementById("task-time");
+    const userSelect = document.getElementById("task-user");
+
+    modalName.innerText = `${task ? 'Update' : 'Create'} Task`
+    nameInput.value = task?.name || '';
+    descriptionInput.value = task?.description || '';
+    timeInput.value = task?.time.split('.')[0];
+
+    usersService.getUsers().then(({data: users}) => {
+      userSelect.innerHTML = users.map(user => `<option value="${user.id}">${user.name}</option>`).join("");
+      userSelect.value = task?.user_id;
+    })
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const updatedTask = {
+        id: task?.id,
+        name: nameInput.value,
+        description: descriptionInput.value,
+        status: task?.status || 'open',
+        time: timeInput.value,
+        userId: userSelect.value
+      };
+
+      console.log({updatedTask})
+      // updateTask(updatedTask).then(() => {
+      //   this.render();
+      //   modal.style.display = "none";
+      //   overlay.style.display = "none";
+      // });
+    });
+
+    const cancelButton = document.getElementById("cancel-button");
+    cancelButton.addEventListener("click", () => {
+      modal.style.display = "none";
+      overlay.style.display = "none";
+    });
+
+    modal.style.display = "block";
+    overlay.style.display = "block";
   }
 
   getTemplate(isLoading, tasks = []) {
@@ -83,7 +132,7 @@ class TasksPage extends HTMLElement {
       ? 'Loading...'
       : `
         <div id="tasksPage" class="row">        
-          <a class="waves-effect waves-light btn modal-trigger create-task-button" href="#createTaskModal">Create Task</a>
+          <a class="waves-effect waves-light btn modal-trigger create-task-button">Create Task</a>
           ${tasks.map(x => (`
             <div id="${x.id}" class="modal-trigger task-wrapper" href="#updateTaskModal">
                 <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
@@ -91,8 +140,7 @@ class TasksPage extends HTMLElement {
           `)).join('')}
         </div>
       
-        <cc-create-task-modal id="createTask"></cc-create-task-modal>
-        <cc-update-task-modal id="updateTask" test="test1"></cc-update-task-modal>
+        <cc-mutate-task-modal id="mutate"></cc-mutate-task-modal>
       `
   }
 }
