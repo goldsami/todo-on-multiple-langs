@@ -31,11 +31,12 @@ class TaskCard extends HTMLElement {
     this.addEventListeners()
   }
 
-  getTemplate({id, name, description, time, user}) {
+  getTemplate({id, name, description, time, user, status}) {
     return `
       <div id="task-${id}" class="col s12 m7 task-card">
         <div class="card">           
           <div class="card-content">
+            <input class="status-checkbox" type="checkbox" ${status === 'done' ? 'checked' : ''} />
             <span class="card-title">
                 ${user.image_url 
                   ? `<img
@@ -46,7 +47,7 @@ class TaskCard extends HTMLElement {
                 <span class="task-name">${name}</span>               
                 <i class="material-icons right delete-button">close</i>
             </span>
-            <p>${description}</p>
+            <p>${description}::${status}</p>
             <span>${new Date(time).toLocaleDateString()}</span>
           </div>
         </div>

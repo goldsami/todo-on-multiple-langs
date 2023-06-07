@@ -63,7 +63,15 @@ class TasksPage extends HTMLElement {
   addEventListeners() {
     document.addEventListener('delete-task', this.deleteTaskEventHandler.bind(this))
     document.querySelectorAll('.task-wrapper')
-      .forEach(el => el.addEventListener('click', () => this.taskClickEventHandler(el.id)))
+      .forEach(el => {
+        el.querySelector('.card-title').addEventListener('click', () => this.taskClickEventHandler(el.id))
+        el.querySelector('.status-checkbox').addEventListener("change", (val) => {
+          const updatedStatus = val.target.checked ? "done" : "open";
+          const task = this.#tasks.find(x => x.id == el.id)
+          const updatedTask = { ...task, status: updatedStatus };
+          tasksService.updateTask(el.id, updatedTask)
+        });
+      })
     document.querySelector('.create-task-button')?.addEventListener('click', () => this.openMutateTaskModal())
   }
 
@@ -129,14 +137,14 @@ class TasksPage extends HTMLElement {
     return isLoading
       ? 'Loading...'
       : `
-        <div id="tasksPage" class="row">        
+        <div id="tasksPage" class="row">     
           <a class="waves-effect waves-light btn modal-trigger create-task-button">Create Task</a>
           ${tasks.map(x => (`
             <div id="${x.id}" class="modal-trigger task-wrapper" href="#updateTaskModal">
                 <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
             </div>
           `)).join('')}
-        </div>
+        </div>  
       
         <cc-mutate-task-modal id="mutate"></cc-mutate-task-modal>
       `

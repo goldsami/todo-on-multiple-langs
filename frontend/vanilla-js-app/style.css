@@ -3,10 +3,6 @@
     --box-shadow: 0 0 2px 0;
 }
 
-select {
-  display: block !important;
-}
-
 .task-card {
     margin: auto !important;
     float: none !important;
