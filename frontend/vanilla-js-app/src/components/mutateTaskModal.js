@@ -33,7 +33,7 @@ class MutateTaskModal extends HTMLElement {
           <label for="task-user">User:</label>
           <select id="task-user"></select><br>
           <label for="task-time">Time:</label>
-          <input type="datetime" id="task-time" required><br>
+          <input type="datetime-local" id="task-time" required><br>
           <button type="submit">Save</button>
         </form>
         <button id="cancel-button">Cancel</button>

@@ -90,7 +90,7 @@ class TasksPage extends HTMLElement {
     modalName.innerText = `${task ? 'Update' : 'Create'} Task`
     nameInput.value = task?.name || '';
     descriptionInput.value = task?.description || '';
-    timeInput.value = task?.time.split('.')[0];
+    timeInput.value = task?.time.split('.')[0] || null;
 
     usersService.getUsers().then(({data: users}) => {
       userSelect.innerHTML = users.map(user => `<option value="${user.id}">${user.name}</option>`).join("");
@@ -100,16 +100,19 @@ class TasksPage extends HTMLElement {
     form.addEventListener("submit", (event) => {
       event.preventDefault();
 
-      const updatedTask = {
+      const taskToSave = {
         id: task?.id,
         name: nameInput.value,
         description: descriptionInput.value,
         status: task?.status || 'open',
         time: timeInput.value,
-        userId: userSelect.value
+        user_id: +userSelect.value
       };
 
-      console.log({updatedTask})
+      
+      task 
+        ? console.log({updatedTask: taskToSave})
+        : tasksService.createTask(taskToSave).then(() => this.render())
       // updateTask(updatedTask).then(() => {
       //   this.render();
       //   modal.style.display = "none";
