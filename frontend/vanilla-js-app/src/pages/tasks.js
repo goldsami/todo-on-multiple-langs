@@ -138,9 +138,9 @@ class TasksPage extends HTMLElement {
       ? 'Loading...'
       : `
         <div id="tasksPage" class="row">     
-          <a class="waves-effect waves-light btn modal-trigger create-task-button">Create Task</a>
+          <a class="create-task-button">Create Task</a>
           ${tasks.map(x => (`
-            <div id="${x.id}" class="modal-trigger task-wrapper" href="#updateTaskModal">
+            <div id="${x.id}" class="task-wrapper" href="#updateTaskModal">
                 <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
             </div>
           `)).join('')}

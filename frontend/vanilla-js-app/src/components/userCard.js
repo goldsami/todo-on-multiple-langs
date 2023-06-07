@@ -28,7 +28,7 @@ class UserCard extends HTMLElement {
 
   getTemplate(name, imageUrl, description) {
     return `
-      <div class="col s12 m3 user-card">
+      <div class="user-card">
         <div class="card">
           <div class="card-image">
             <img style="object-fit: cover; height: 300px" src="${imageUrl}">

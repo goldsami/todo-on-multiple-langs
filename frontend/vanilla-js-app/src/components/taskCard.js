@@ -33,7 +33,7 @@ class TaskCard extends HTMLElement {
 
   getTemplate({id, name, description, time, user, status}) {
     return `
-      <div id="task-${id}" class="col s12 m7 task-card">
+      <div id="task-${id}" class="task-card">
         <div class="card">           
           <div class="card-content">
             <input class="status-checkbox" type="checkbox" ${status === 'done' ? 'checked' : ''} />
