@@ -111,13 +111,8 @@ class TasksPage extends HTMLElement {
 
       
       task 
-        ? console.log({updatedTask: taskToSave})
+        ? tasksService.updateTask(task.id, taskToSave).then(() => this.render())
         : tasksService.createTask(taskToSave).then(() => this.render())
-      // updateTask(updatedTask).then(() => {
-      //   this.render();
-      //   modal.style.display = "none";
-      //   overlay.style.display = "none";
-      // });
     });
 
     const cancelButton = document.getElementById("cancel-button");

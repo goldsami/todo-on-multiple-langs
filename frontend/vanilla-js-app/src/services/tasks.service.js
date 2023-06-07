@@ -12,6 +12,13 @@ class TasksService {
     });
   }
 
+  updateTask(id, task) {
+    return axios.put(`http://localhost:4000/api/tasks/${id}`, {
+        ...task,
+        time: new Date(task.time).toISOString(),
+      });
+  }
+
   deleteTask(id) {
     return axios.delete(`http://localhost:4000/api/tasks/${id}`)
   }
