@@ -57,6 +57,7 @@ To run `Next.js` project go to `fullstack/next-app` folder and execute the follo
 
 ```
 npm i
+npm run prisma:pull-db
 npm run dev
 ```
 
