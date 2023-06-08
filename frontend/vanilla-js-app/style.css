@@ -3,9 +3,13 @@
     --box-shadow: 0 0 2px 0;
 }
 
-.task-card {
+.task-card, .card {
     margin: auto !important;
     float: none !important;
+}
+
+.task-wrapper {
+  margin-bottom: 2rem;
 }
 
 .task-card .task-owner-image {
@@ -18,6 +22,16 @@
 
 .task-card i, .task-card .task-name {
     cursor: pointer;
+}
+
+.card-title {
+  display: flex;
+  height: 2.5rem;
+  align-items: center;
+}
+
+.card-title .delete-button {
+  margin-left: auto;
 }
 
 .modal-window {

@@ -34,21 +34,21 @@ class TaskCard extends HTMLElement {
   getTemplate({id, name, description, time, user, status}) {
     return `
       <div id="task-${id}" class="task-card">
-        <div class="card">           
-          <div class="card-content">
-            <input class="status-checkbox" type="checkbox" ${status === 'done' ? 'checked' : ''} />
-            <span class="card-title">
-                ${user.image_url 
-                  ? `<img
-                    class="task-owner-image"
-                    src="${user.image_url}" />`
-                  : ''
-                }
-                <span class="task-name">${name}</span>               
-                <i class="material-icons right delete-button">close</i>
-            </span>
-            <p>${description}::${status}</p>
-            <span>${new Date(time).toLocaleDateString()}</span>
+        <div class="card" style="width: 20rem;">           
+          <div class="card-body">
+            <h5 class="card-title">
+              <input class="status-checkbox form-check-input" type="checkbox" ${status === 'done' ? 'checked' : ''} style="margin-right: 0.5rem;" />
+              ${user.image_url 
+                ? `<img
+                  class="task-owner-image" style="margin-right: 0.5rem;"
+                  src="${user.image_url}" />`
+                : ''
+              }
+              <span class="task-name">${name}</span>               
+              <i class="material-icons right delete-button">close</i>
+            </h5>
+            <h6 class="card-subtitle text-body-secondary">${new Date(time).toLocaleDateString()}</h6>
+            <p class="card-text">${description}</p>
           </div>
         </div>
       </div>
