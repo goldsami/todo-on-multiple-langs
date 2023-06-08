@@ -4,13 +4,6 @@ class TasksPage extends HTMLElement {
   #rendered = false
   #currentTab = 'all'
   #tasks = []
-  // #mutatedTask = null
-
-  // set mutatedTask(val) {
-  //   this.#mutatedTask = val
-  //   document.querySelector('#mutateTask').setAttribute('isCreateModal', 'false')
-  //   console.log({ el: document.querySelector('#mutateTask') })
-  // }
 
   connectedCallback() {
     if (!this.#rendered) {
@@ -42,7 +35,6 @@ class TasksPage extends HTMLElement {
   async render() {
     this.disconnectedCallback()
     this.innerHTML = this.getTemplate(true)
-    this.initModal()
     this.#tasks = await this.loadTasks()
     const filteredTasks = this.filterTasks(this.#tasks, this.#currentTab)
     this.renderTasks(this.#tasks)
@@ -51,13 +43,6 @@ class TasksPage extends HTMLElement {
 
   async renderTasks(tasks) {
     this.innerHTML = this.getTemplate(false, tasks)
-    this.initModal()
-  }
-
-  initModal() {
-    const modals = document.querySelectorAll('.modal');
-    if (!modals.length) return
-    const instances = M.Modal.init(modals);
   }
 
   addEventListeners() {
