@@ -123,7 +123,7 @@ class TasksPage extends HTMLElement {
       ? 'Loading...'
       : `
         <div id="tasksPage" class="row">     
-          <a class="create-task-button">Create Task</a>
+          <button type="button" class="btn btn-primary create-task-button">Create Task</button>
           ${tasks.map(x => (`
             <div id="${x.id}" class="task-wrapper" href="#updateTaskModal">
                 <cc-task-card task='${JSON.stringify(x)}'></cc-task-card>
