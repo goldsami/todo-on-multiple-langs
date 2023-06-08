@@ -28,15 +28,11 @@ class UserCard extends HTMLElement {
 
   getTemplate(name, imageUrl, description) {
     return `
-      <div class="user-card">
-        <div class="card">
-          <div class="card-image">
-            <img style="object-fit: cover; height: 300px" src="${imageUrl}">
-            <span class="card-title">${name}</span>
-          </div>
-          <div class="card-content">
-            <p>${description}</p>
-          </div>
+      <div class="card user-card" style="width: 20rem;">
+        <img src="${imageUrl}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">${name}</h5>
+          <p class="card-text">${description}</p>
         </div>
       </div>
     `
