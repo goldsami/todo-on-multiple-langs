@@ -65,9 +65,8 @@ export class Router extends HTMLElement {
 
   highlightLink(id) {
     document.querySelectorAll('.router-link')
-      .forEach(el => el?.parentElement?.parentElement?.classList.remove('active'))
-    document.querySelector(`li .router-link[href='/${id}']`)
-      ?.parentElement?.parentElement.classList.add('active')
+      .forEach(el => el?.classList.remove('active'))
+    document.querySelector(`li .router-link[href='/${id}']`).classList.add('active')
   }
 
   bindOnClickEvents() {
